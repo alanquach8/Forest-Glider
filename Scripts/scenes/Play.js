@@ -16,6 +16,12 @@ var scenes;
 (function (scenes) {
     var Play = /** @class */ (function (_super) {
         __extends(Play, _super);
+        // private _ocean?: objects.Ocean;
+        // private _plane?: objects.Plane;
+        // private _island?: objects.Island;
+        // private _cloudNumber:number;
+        // private _clouds?: objects.Cloud[];
+        // private _scoreBoard: managers.ScoreBoard;
         // PUBLIC PROPERTIES
         // CONSTRUCTOR
         function Play() {
@@ -27,43 +33,45 @@ var scenes;
         // PUBLIC METHODS
         //initialize and instatiate
         Play.prototype.Start = function () {
-            this._ocean = new objects.Ocean();
-            this._plane = new objects.Plane();
-            this._island = new objects.Island();
-            this._cloudNumber = config.Game.CLOUD_NUM;
-            this._clouds = new Array();
-            // create an array of cloud objects
-            for (var index = 0; index < this._cloudNumber; index++) {
-                this._clouds[index] = new objects.Cloud();
-            }
-            this._scoreBoard = new managers.ScoreBoard();
-            config.Game.SCORE_BOARD = this._scoreBoard;
+            this._forest = new objects.Forest();
+            // this._ocean = new objects.Ocean();
+            // this._plane = new objects.Plane();
+            // this._island = new objects.Island();
+            // this._cloudNumber = config.Game.CLOUD_NUM;
+            // this._clouds = new Array<objects.Cloud>();
+            // // create an array of cloud objects
+            // for (let index = 0; index < this._cloudNumber; index++) 
+            // {
+            //     this._clouds[index] = new objects.Cloud();             
+            // }
+            // this._scoreBoard = new managers.ScoreBoard();
+            // config.Game.SCORE_BOARD = this._scoreBoard;
             this.Main();
         };
         Play.prototype.Update = function () {
-            var _this = this;
-            this._ocean.Update();
-            this._island.Update();
-            this._plane.Update();
-            managers.Collision.squaredRadiusCheck(this._plane, this._island);
-            this._clouds.forEach(function (cloud) {
-                cloud.Update();
-                managers.Collision.squaredRadiusCheck(_this._plane, cloud);
-            });
+            this._forest.Update();
+            //    this._ocean.Update();
+            //    this._island.Update();
+            //    this._plane.Update();
+            //    managers.Collision.squaredRadiusCheck(this._plane, this._island);
+            //    this._clouds.forEach(cloud => {
+            //        cloud.Update();
+            //        managers.Collision.squaredRadiusCheck(this._plane, cloud);
+            //    });
         };
         Play.prototype.Main = function () {
-            var _this = this;
-            this.addChild(this._ocean);
-            this.addChild(this._island);
-            this.addChild(this._plane);
-            this._clouds.forEach(function (cloud) {
-                _this.addChild(cloud);
-            });
-            this.addChild(this._scoreBoard.LivesLabel);
-            this.addChild(this._scoreBoard.ScoreLabel);
+            this.addChild(this._forest);
+            // this.addChild(this._ocean);
+            // this.addChild(this._island);
+            // this.addChild(this._plane);
+            // this._clouds.forEach(cloud => {
+            //     this.addChild(cloud);
+            // });
+            // this.addChild(this._scoreBoard.LivesLabel);
+            // this.addChild(this._scoreBoard.ScoreLabel);
         };
         Play.prototype.Clean = function () {
-            this._plane.engineSound.stop();
+            // this._plane.engineSound.stop();
             this.removeAllChildren();
         };
         return Play;
