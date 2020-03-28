@@ -21,8 +21,13 @@ var Game = (function () {
         { id: "engine", src: "./Assets/audio/engine.ogg" },
         { id: "yay", src: "./Assets/audio/yay.ogg" },
         { id: "thunder", src: "./Assets/audio/thunder.ogg" },
+        { id: "back_button", src: "./Assets/images/backButton.png" },
+        { id: "play_button", src: "./Assets/images/playButton.png" },
         { id: "forest", src: "./Assets/images/forest.png" },
-        { id: "player_m", src: "./Assets/images/player_m.png" }
+        { id: "select_player_m", src: "./Assets/images/select_player_m.png" },
+        { id: "select_player_f", src: "./Assets/images/select_player_f.png" },
+        { id: "player_m", src: "./Assets/images/player_m.png" },
+        { id: "player_f", src: "./Assets/images/player_f.png" }
     ];
     function Preload() {
         assets = new createjs.LoadQueue(); // asset container
@@ -71,6 +76,10 @@ var Game = (function () {
             case scenes.State.START:
                 console.log("switch to Start Scene");
                 currentScene = new scenes.Start();
+                break;
+            case scenes.State.CHARACTER_SELECT:
+                console.log("switch to Character Select Scene");
+                currentScene = new scenes.CharacterSelect();
                 break;
             case scenes.State.PLAY:
                 console.log("switch to Play Scene");

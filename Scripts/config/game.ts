@@ -7,6 +7,14 @@ module config
         public static SCENE: scenes.State;
         public static ASSETS: createjs.LoadQueue;
         public static FPS: number = 60; // 60 Frames per second
+        
+
+        public static SELECTED_CHARACTER: string = "player_m";
+
+
+
+
+        // CURRENTLY NOT USING:
         public static CLOUD_NUM: number = 3;
         public static LIVES:number = 5;
         public static SCORE:number = 0;

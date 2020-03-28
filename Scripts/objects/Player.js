@@ -18,7 +18,7 @@ var objects;
         __extends(Player, _super);
         // CONSTRUCTOR
         function Player() {
-            var _this = _super.call(this, config.Game.ASSETS.getResult("player_m"), 50, config.Game.SCREEN_HEIGHT / 2, true) || this;
+            var _this = _super.call(this, config.Game.ASSETS.getResult(config.Game.SELECTED_CHARACTER), 50, config.Game.SCREEN_HEIGHT / 2, true) || this;
             _this._speed = 2;
             // player_f
             window.addEventListener('keyup', function (e) {

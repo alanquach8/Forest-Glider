@@ -45,7 +45,7 @@ module objects
         // CONSTRUCTOR
         constructor()
         {
-            super(config.Game.ASSETS.getResult("player_m"), 50, config.Game.SCREEN_HEIGHT/2, true);
+            super(config.Game.ASSETS.getResult(config.Game.SELECTED_CHARACTER), 50, config.Game.SCREEN_HEIGHT/2, true);
             // player_f
 
             window.addEventListener('keyup', (e) => {
