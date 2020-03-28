@@ -4,6 +4,7 @@ module scenes
     {
         // PRIVATE INSTANCE MEMBERS
         private _forest?: objects.Forest;
+        private _player?: objects.Player;
         // private _ocean?: objects.Ocean;
         // private _plane?: objects.Plane;
         // private _island?: objects.Island;
@@ -31,6 +32,7 @@ module scenes
         public Start(): void 
         {
             this._forest = new objects.Forest();
+            this._player = new objects.Player();
             // this._ocean = new objects.Ocean();
             // this._plane = new objects.Plane();
             // this._island = new objects.Island();
@@ -53,6 +55,7 @@ module scenes
         public Update(): void 
         {
             this._forest.Update();
+            this._player.Update();
         //    this._ocean.Update();
 
         //    this._island.Update();
@@ -71,6 +74,8 @@ module scenes
         public Main(): void 
         {
             this.addChild(this._forest);
+
+            this.addChild(this._player);
             // this.addChild(this._ocean);
 
             // this.addChild(this._island);

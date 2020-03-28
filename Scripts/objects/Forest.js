@@ -32,6 +32,7 @@ var objects;
         // PUBLIC METHODS
         Forest.prototype.Start = function () {
             this._horizontalSpeed = 3;
+            this.alpha = 0.90;
         };
         Forest.prototype.Update = function () {
             this.position = objects.Vector2.add(this.position, new objects.Vector2(-this._horizontalSpeed, 0));

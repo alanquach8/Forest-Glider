@@ -34,6 +34,7 @@ var scenes;
         //initialize and instatiate
         Play.prototype.Start = function () {
             this._forest = new objects.Forest();
+            this._player = new objects.Player();
             // this._ocean = new objects.Ocean();
             // this._plane = new objects.Plane();
             // this._island = new objects.Island();
@@ -50,6 +51,7 @@ var scenes;
         };
         Play.prototype.Update = function () {
             this._forest.Update();
+            this._player.Update();
             //    this._ocean.Update();
             //    this._island.Update();
             //    this._plane.Update();
@@ -61,6 +63,7 @@ var scenes;
         };
         Play.prototype.Main = function () {
             this.addChild(this._forest);
+            this.addChild(this._player);
             // this.addChild(this._ocean);
             // this.addChild(this._island);
             // this.addChild(this._plane);

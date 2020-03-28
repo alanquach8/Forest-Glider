@@ -21,7 +21,8 @@ var Game = (function () {
         { id: "engine", src: "./Assets/audio/engine.ogg" },
         { id: "yay", src: "./Assets/audio/yay.ogg" },
         { id: "thunder", src: "./Assets/audio/thunder.ogg" },
-        { id: "forest", src: "./Assets/images/forest.png" }
+        { id: "forest", src: "./Assets/images/forest.png" },
+        { id: "player_m", src: "./Assets/images/player_m.png" }
     ];
     function Preload() {
         assets = new createjs.LoadQueue(); // asset container

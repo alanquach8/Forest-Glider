@@ -29,6 +29,7 @@ module objects
         public Start(): void 
         {
             this._horizontalSpeed = 3;
+            this.alpha = 0.90;
         }
         public Update(): void 
         {
