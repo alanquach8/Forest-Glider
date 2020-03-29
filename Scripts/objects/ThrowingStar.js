@@ -21,6 +21,7 @@ var objects;
             var _this = _super.call(this, config.Game.ASSETS.getResult(config.Game.THROWING_STAR), x, y, true) || this;
             // PRIVATE INSTANCE MEMBERS
             _this._speed = 20;
+            _this._damage = 1;
             _this.Start();
             return _this;
         }
@@ -35,6 +36,16 @@ var objects;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(ThrowingStar.prototype, "Damage", {
+            get: function () {
+                return this._damage;
+            },
+            set: function (value) {
+                this._damage = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         // PRIVATE METHODS
         ThrowingStar.prototype._checkBounds = function () {
         };
@@ -42,7 +53,7 @@ var objects;
         ThrowingStar.prototype.Start = function () {
         };
         ThrowingStar.prototype.Update = function () {
-            this.x += this._speed;
+            this.position = new objects.Vector2(this.x + this._speed, this.y);
         };
         ThrowingStar.prototype.Reset = function () {
         };

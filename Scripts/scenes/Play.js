@@ -26,6 +26,7 @@ var scenes;
         // CONSTRUCTOR
         function Play() {
             var _this = _super.call(this) || this;
+            _this._noOfEnemies = 10;
             _this.Start();
             return _this;
         }
@@ -36,6 +37,10 @@ var scenes;
             config.Game.CURRENT_SCENE = this;
             this._forest = new objects.Forest();
             this._player = new objects.Player();
+            this._enemies = new Array();
+            for (var i = 0; i < this._noOfEnemies; i++) {
+                this._enemies.push(new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), Math.floor(util.Mathf.RandomRange(500, 2000)), Math.floor(util.Mathf.RandomRange(50, 400))));
+            }
             // this._ocean = new objects.Ocean();
             // this._plane = new objects.Plane();
             // this._island = new objects.Island();
@@ -51,8 +56,28 @@ var scenes;
             this.Main();
         };
         Play.prototype.Update = function () {
+            var _this = this;
             this._forest.Update();
             this._player.Update();
+            this._enemies.forEach(function (enemy) {
+                _this._player.ThrowingStars.forEach(function (star) {
+                    managers.Collision.AABBCheck(star, enemy);
+                    if (enemy.isColliding) {
+                        _this.removeChild(star);
+                        _this._player.ThrowingStars.splice(_this._player.ThrowingStars.indexOf(star), 1);
+                    }
+                });
+                enemy.Update();
+                if (enemy.IsDead) {
+                    _this._enemies.splice(_this._enemies.indexOf(enemy), 1);
+                    _this.removeChild(enemy);
+                    console.log(_this._enemies.length);
+                }
+            });
+            // array of enemies - update
+            // boss - update
+            // collisions
+            // collision: obj1 instanceof, obj2 instanceof
             //    this._ocean.Update();
             //    this._island.Update();
             //    this._plane.Update();
@@ -63,8 +88,12 @@ var scenes;
             //    });
         };
         Play.prototype.Main = function () {
+            var _this = this;
             this.addChild(this._forest);
             this.addChild(this._player);
+            this._enemies.forEach(function (enemy) {
+                _this.addChild(enemy);
+            });
             // this.addChild(this._ocean);
             // this.addChild(this._island);
             // this.addChild(this._plane);

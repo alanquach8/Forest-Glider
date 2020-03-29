@@ -29,7 +29,10 @@ var Game = (function () {
         { id: "player_m", src: "./Assets/images/player_m.png" },
         { id: "player_f", src: "./Assets/images/player_f.png" },
         { id: "star_m", src: "./Assets/images/star_m.png" },
-        { id: "star_f", src: "./Assets/images/star_f.png" }
+        { id: "star_f", src: "./Assets/images/star_f.png" },
+        { id: "star_impact", src: "./Assets/images/star_impact.png" },
+        { id: "baby_dragon_green", src: "./Assets/images/baby_dragon_green.png" },
+        { id: "baby_dragon_red", src: "./Assets/images/baby_dragon_red.png" }
     ];
     function Preload() {
         assets = new createjs.LoadQueue(); // asset container

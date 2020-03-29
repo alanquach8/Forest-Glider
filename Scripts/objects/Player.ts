@@ -45,6 +45,12 @@ module objects
         public set Speed(value:number) {
             this._speed = value;
         }
+        public get ThrowingStars():Array<objects.ThrowingStar> {
+            return this._throwingStars;
+        }
+        public set ThrowingStars(value:Array<objects.ThrowingStar>) {
+            this._throwingStars = value;
+        }
         
 
         // CONSTRUCTOR
@@ -128,19 +134,23 @@ module objects
         {
             if(this._up)
             {
-                this.y -= this._speed;
+                this.position = new objects.Vector2(this.x, this.y-this._speed);
+                //this.y -= this._speed;
             }
             if(this._down)
             {
-                this.y += this._speed;
+                this.position = new objects.Vector2(this.x, this.y+this._speed);
+                //this.y += this._speed;
             }
             if(this._left)
             {
-                this.x -= this._speed;
+                this.position = new objects.Vector2(this.x-this._speed, this.y);
+                //this.x -= this._speed;
             }
             if(this._right)
             {
-                this.x += this._speed;
+                this.position = new objects.Vector2(this.x+this._speed, this.y);
+                //this.x += this._speed;
             }
             // console.log('(x, y): (' + this.x + ', ' + this.y + ')');
             // console.log('(regX, regY): (' + this.regX + ', ' + this.regY + ')');

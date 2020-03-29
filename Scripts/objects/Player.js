@@ -119,6 +119,16 @@ var objects;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(Player.prototype, "ThrowingStars", {
+            get: function () {
+                return this._throwingStars;
+            },
+            set: function (value) {
+                this._throwingStars = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         // PRIVATE METHODS
         Player.prototype._checkBounds = function () {
             if (this.x - this.halfWidth < 0) {
@@ -141,16 +151,20 @@ var objects;
         Player.prototype.Update = function () {
             var _this = this;
             if (this._up) {
-                this.y -= this._speed;
+                this.position = new objects.Vector2(this.x, this.y - this._speed);
+                //this.y -= this._speed;
             }
             if (this._down) {
-                this.y += this._speed;
+                this.position = new objects.Vector2(this.x, this.y + this._speed);
+                //this.y += this._speed;
             }
             if (this._left) {
-                this.x -= this._speed;
+                this.position = new objects.Vector2(this.x - this._speed, this.y);
+                //this.x -= this._speed;
             }
             if (this._right) {
-                this.x += this._speed;
+                this.position = new objects.Vector2(this.x + this._speed, this.y);
+                //this.x += this._speed;
             }
             // console.log('(x, y): (' + this.x + ', ' + this.y + ')');
             // console.log('(regX, regY): (' + this.regX + ', ' + this.regY + ')');

@@ -4,12 +4,19 @@ module objects
     {
         // PRIVATE INSTANCE MEMBERS
         private _speed:number = 20;
+        private _damage:number = 1;
         // PUBLIC PROPERTIES
         public get Speed():number {
             return this._speed;
         }
         public set Speed(value:number) {
             this._speed = value;
+        }
+        public get Damage():number {
+            return this._damage;
+        }
+        public set Damage(value:number) {
+            this._damage = value;
         }
         // CONSTRUCTOR
         constructor(x:number, y:number)
@@ -29,7 +36,7 @@ module objects
         }
         public Update(): void 
         {
-            this.x += this._speed;
+            this.position = new objects.Vector2(this.x + this._speed, this.y);
         }
         public Reset(): void 
         {

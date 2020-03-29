@@ -56,13 +56,14 @@ var managers;
                 if (!object2.isColliding) {
                     console.log("Collision!");
                     object2.isColliding = true;
-                    return true;
+                    if (object1 instanceof objects.ThrowingStar && object2 instanceof objects.Enemy) {
+                        object2.Life -= object1.Damage;
+                    }
                 }
             }
             else {
                 object2.isColliding = false;
             }
-            return false;
         };
         return Collision;
     }());

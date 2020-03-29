@@ -5,6 +5,9 @@ module scenes
         // PRIVATE INSTANCE MEMBERS
         private _forest?: objects.Forest;
         private _player?: objects.Player;
+
+        private _enemies?: Array<objects.Enemy>;
+        private _noOfEnemies: number = 10;
         // private _ocean?: objects.Ocean;
         // private _plane?: objects.Plane;
         // private _island?: objects.Island;
@@ -34,6 +37,12 @@ module scenes
             config.Game.CURRENT_SCENE = this;
             this._forest = new objects.Forest();
             this._player = new objects.Player();
+
+            this._enemies = new Array<objects.Enemy>();
+            for(let i=0; i<this._noOfEnemies; i++)
+            {
+                this._enemies.push(new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), Math.floor(util.Mathf.RandomRange(500, 2000)), Math.floor(util.Mathf.RandomRange(50, 400))));
+            }
             // this._ocean = new objects.Ocean();
             // this._plane = new objects.Plane();
             // this._island = new objects.Island();
@@ -57,6 +66,31 @@ module scenes
         {
             this._forest.Update();
             this._player.Update();
+
+            this._enemies.forEach(enemy => {
+                this._player.ThrowingStars.forEach(star => {
+                    managers.Collision.AABBCheck(star, enemy);
+                    if(enemy.isColliding)
+                    {
+                        this.removeChild(star);
+                        this._player.ThrowingStars.splice(this._player.ThrowingStars.indexOf(star), 1);
+                    }
+                });
+                enemy.Update();
+                if(enemy.IsDead)
+                {
+                    this._enemies.splice(this._enemies.indexOf(enemy), 1);
+                    this.removeChild(enemy);
+                    console.log(this._enemies.length);
+                }
+            });
+            // array of enemies - update
+            // boss - update
+            // collisions
+                // collision: obj1 instanceof, obj2 instanceof
+
+
+
         //    this._ocean.Update();
 
         //    this._island.Update();
@@ -77,6 +111,10 @@ module scenes
             this.addChild(this._forest);
 
             this.addChild(this._player);
+
+            this._enemies.forEach(enemy => {
+                this.addChild(enemy);
+            });
             // this.addChild(this._ocean);
 
             // this.addChild(this._island);
