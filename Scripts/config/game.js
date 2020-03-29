@@ -8,6 +8,7 @@ var config;
         Game.SCREEN_HEIGHT = 480;
         Game.FPS = 60; // 60 Frames per second
         Game.SELECTED_CHARACTER = "player_m";
+        Game.THROWING_STAR = "star_m";
         // CURRENTLY NOT USING:
         Game.CLOUD_NUM = 3;
         Game.LIVES = 5;

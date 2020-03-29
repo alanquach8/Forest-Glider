@@ -33,6 +33,7 @@ var scenes;
         // PUBLIC METHODS
         //initialize and instatiate
         Play.prototype.Start = function () {
+            config.Game.CURRENT_SCENE = this;
             this._forest = new objects.Forest();
             this._player = new objects.Player();
             // this._ocean = new objects.Ocean();

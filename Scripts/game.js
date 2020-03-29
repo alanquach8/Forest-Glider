@@ -27,7 +27,9 @@ var Game = (function () {
         { id: "select_player_m", src: "./Assets/images/select_player_m.png" },
         { id: "select_player_f", src: "./Assets/images/select_player_f.png" },
         { id: "player_m", src: "./Assets/images/player_m.png" },
-        { id: "player_f", src: "./Assets/images/player_f.png" }
+        { id: "player_f", src: "./Assets/images/player_f.png" },
+        { id: "star_m", src: "./Assets/images/star_m.png" },
+        { id: "star_f", src: "./Assets/images/star_f.png" }
     ];
     function Preload() {
         assets = new createjs.LoadQueue(); // asset container

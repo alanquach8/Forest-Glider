@@ -34,16 +34,19 @@ var scenes;
             this._characterM = new objects.Button(config.Game.ASSETS.getResult("select_player_m"), 50, 100);
             this._characterF = new objects.Button(config.Game.ASSETS.getResult("select_player_f"), 350, 100);
             config.Game.SELECTED_CHARACTER = "player_m";
+            config.Game.THROWING_STAR = "star_m";
             this._backButton = new objects.Button(config.Game.ASSETS.getResult("back_button"), 100, 400);
             this._playButton = new objects.Button(config.Game.ASSETS.getResult("play_button"), 300, 400);
             this._characterM.on("click", function () {
                 config.Game.SELECTED_CHARACTER = "player_m";
+                config.Game.THROWING_STAR = "star_m";
                 _this._charMBorder = _this.DrawRectangle(45, 95, 250, 250, "#00FF33");
                 _this._charFBorder = _this.DrawRectangle(345, 95, 250, 250, "#000000");
                 _this.Update();
             });
             this._characterF.on("click", function () {
                 config.Game.SELECTED_CHARACTER = "player_f";
+                config.Game.THROWING_STAR = "star_f";
                 _this._charMBorder = _this.DrawRectangle(45, 95, 250, 250, "#000000");
                 _this._charFBorder = _this.DrawRectangle(345, 95, 250, 250, "#00FF33");
                 _this.Update();

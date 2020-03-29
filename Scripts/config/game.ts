@@ -9,7 +9,9 @@ module config
         public static FPS: number = 60; // 60 Frames per second
         
 
+        public static CURRENT_SCENE: objects.Scene;
         public static SELECTED_CHARACTER: string = "player_m";
+        public static THROWING_STAR: string = "star_m";
 
 
 

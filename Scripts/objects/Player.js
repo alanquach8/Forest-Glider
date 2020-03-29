@@ -20,6 +20,8 @@ var objects;
         function Player() {
             var _this = _super.call(this, config.Game.ASSETS.getResult(config.Game.SELECTED_CHARACTER), 50, config.Game.SCREEN_HEIGHT / 2, true) || this;
             _this._speed = 2;
+            _this._reloadSpeed = 15;
+            _this._reloadCounter = 0;
             // player_f
             window.addEventListener('keyup', function (e) {
                 switch (e.code) {
@@ -36,6 +38,9 @@ var objects;
                         break;
                     case "KeyD":
                         _this._right = false;
+                        break;
+                    case "KeyJ":
+                        _this._isThrowing = false;
                         break;
                 }
             });
@@ -54,6 +59,9 @@ var objects;
                         break;
                     case "KeyD":
                         _this._right = true;
+                        break;
+                    case "KeyJ":
+                        _this._isThrowing = true;
                         break;
                 }
             });
@@ -128,8 +136,10 @@ var objects;
         };
         // PUBLIC METHODS
         Player.prototype.Start = function () {
+            this._throwingStars = new Array();
         };
         Player.prototype.Update = function () {
+            var _this = this;
             if (this._up) {
                 this.y -= this._speed;
             }
@@ -146,6 +156,29 @@ var objects;
             // console.log('(regX, regY): (' + this.regX + ', ' + this.regY + ')');
             // console.log('position(x, y): (' + this.position.x + ', ' + this.position.y + ')');
             // console.log(this.rotation);
+            if (this._isThrowing) {
+                if (this._reloadCounter == 0) {
+                    var star = new objects.ThrowingStar(this.x, this.y);
+                    this._throwingStars.push(star);
+                    config.Game.CURRENT_SCENE.addChild(star);
+                    this._reloadCounter = this._reloadSpeed;
+                }
+                else {
+                    this._reloadCounter--;
+                }
+            }
+            else {
+                if (this._reloadCounter != 0) {
+                    this._reloadCounter--;
+                }
+            }
+            this._throwingStars.forEach(function (star) {
+                star.Update();
+                if (star.IsOffScreen()) {
+                    _this._throwingStars.splice(_this._throwingStars.indexOf(star), 1);
+                    config.Game.CURRENT_SCENE.removeChild(star);
+                }
+            });
             this._checkBounds();
         };
         Player.prototype.Reset = function () {

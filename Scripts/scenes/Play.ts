@@ -31,6 +31,7 @@ module scenes
         //initialize and instatiate
         public Start(): void 
         {
+            config.Game.CURRENT_SCENE = this;
             this._forest = new objects.Forest();
             this._player = new objects.Player();
             // this._ocean = new objects.Ocean();

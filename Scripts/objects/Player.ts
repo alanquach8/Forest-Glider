@@ -9,6 +9,11 @@ module objects
         private _right:boolean;
         private _speed:number = 2;
 
+        private _isThrowing:boolean;
+        private _throwingStars:Array<objects.ThrowingStar>;
+        private _reloadSpeed:number = 15;
+        private _reloadCounter:number = 0;
+
         // PUBLIC PROPERTIES
         public get Up():boolean {
             return this._up;
@@ -64,6 +69,9 @@ module objects
                     case "KeyD":
                         this._right = false;
                         break;
+                    case "KeyJ":
+                        this._isThrowing = false;
+                        break;
                 }
             });
 
@@ -82,6 +90,9 @@ module objects
                         break;
                     case "KeyD":
                         this._right = true;
+                        break;
+                    case "KeyJ":
+                        this._isThrowing = true;
                         break;
                 }
             });
@@ -110,6 +121,7 @@ module objects
 
         public Start(): void 
         {
+            this._throwingStars = new Array<ThrowingStar>();
         }
 
         public Update(): void 
@@ -134,6 +146,32 @@ module objects
             // console.log('(regX, regY): (' + this.regX + ', ' + this.regY + ')');
             // console.log('position(x, y): (' + this.position.x + ', ' + this.position.y + ')');
             // console.log(this.rotation);
+            if(this._isThrowing)
+            {
+                if(this._reloadCounter == 0)
+                {
+                    let star = new objects.ThrowingStar(this.x, this.y);
+                    this._throwingStars.push(star);
+                    config.Game.CURRENT_SCENE.addChild(star);
+                    this._reloadCounter = this._reloadSpeed;
+                } else {
+                    this._reloadCounter--;
+                }
+                
+            } else {
+                if(this._reloadCounter != 0)
+                {
+                    this._reloadCounter--;
+                }
+            }
+            this._throwingStars.forEach(star => {
+                star.Update();
+                if(star.IsOffScreen())
+                {
+                    this._throwingStars.splice(this._throwingStars.indexOf(star), 1);
+                    config.Game.CURRENT_SCENE.removeChild(star);
+                }
+            });
             this._checkBounds();
         }
 

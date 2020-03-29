@@ -33,12 +33,14 @@ module scenes
             this._characterM = new objects.Button(config.Game.ASSETS.getResult("select_player_m"), 50, 100);
             this._characterF = new objects.Button(config.Game.ASSETS.getResult("select_player_f"), 350, 100);
             config.Game.SELECTED_CHARACTER = "player_m";
+            config.Game.THROWING_STAR = "star_m";
 
             this._backButton = new objects.Button(config.Game.ASSETS.getResult("back_button"), 100, 400);
             this._playButton = new objects.Button(config.Game.ASSETS.getResult("play_button"), 300, 400);
 
             this._characterM.on("click", ()=>{
                 config.Game.SELECTED_CHARACTER = "player_m";
+                config.Game.THROWING_STAR = "star_m";
                 this._charMBorder = this.DrawRectangle(45, 95, 250, 250, "#00FF33");
                 this._charFBorder = this.DrawRectangle(345, 95, 250, 250, "#000000");
                 this.Update();
@@ -46,6 +48,7 @@ module scenes
 
             this._characterF.on("click", ()=>{
                 config.Game.SELECTED_CHARACTER = "player_f";
+                config.Game.THROWING_STAR = "star_f";
                 this._charMBorder = this.DrawRectangle(45, 95, 250, 250, "#000000");
                 this._charFBorder = this.DrawRectangle(345, 95, 250, 250, "#00FF33");
                 this.Update();
