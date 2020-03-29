@@ -3,6 +3,10 @@ module scenes
     export class Play extends objects.Scene
     {
         // PRIVATE INSTANCE MEMBERS
+        private _labelArea?: createjs.Shape;
+        private _lifeLabel?: objects.Label;
+        private _bombsLabel?: objects.Label;
+        
         private _forest?: objects.Forest;
         private _player?: objects.Player;
 
@@ -40,10 +44,14 @@ module scenes
             this._forest = new objects.Forest();
             this._player = new objects.Player();
 
+            this._labelArea = this.DrawRectangle(0, 0, config.Game.SCREEN_WIDTH, 50, "#000000");
+            this._labelArea.alpha = 0.5;
+            this._lifeLabel = new objects.Label("Life: " + this._player.Life, "20px", "Consolas", "#FFFFFF", 0, 0, false);
+            this._bombsLabel = new objects.Label("Bombs: " + this._player.BombCount, "20px", "Consolas", "#FFFFFF", 0, 25, false);
+
             this._enemies = new Array<objects.Enemy>();
             let anEnemy = new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), -100, -100);
-            anEnemy.Speed = 0;
-            this._enemies.push(anEnemy); // 1 enemy offscreen for update function to function properly
+            this._enemies.push(anEnemy);
             for(let i=0; i<this._noOfEnemies; i++)
             {
                 this._enemies.push(new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), Math.floor(util.Mathf.RandomRange(500, 2000)), Math.floor(util.Mathf.RandomRange(50, 400))));
@@ -105,12 +113,6 @@ module scenes
                 });
                 this._explosions.forEach(explosion => {
                     managers.Collision.AABBCheck(explosion, enemy);
-                    explosion.Update();
-                    if(explosion.alpha <= 0)
-                    {
-                        this.removeChild(explosion);
-                        this._explosions.splice(this._explosions.indexOf(explosion), 1);
-                    }
                 });
                 enemy.Update();
                 if(enemy.IsDead)
@@ -120,25 +122,17 @@ module scenes
                     console.log(this._enemies.length);
                 }
             });
-            // array of enemies - update
-            // boss - update
-            // collisions
-                // collision: obj1 instanceof, obj2 instanceof
 
+            this._explosions.forEach(explosion => {
+                explosion.Update();
+                if(explosion.alpha <= 0)
+                {
+                    this.removeChild(explosion);
+                        this._explosions.splice(this._explosions.indexOf(explosion), 1);
+                }
+            });
 
-
-        //    this._ocean.Update();
-
-        //    this._island.Update();
-
-        //    this._plane.Update();
-
-        //    managers.Collision.squaredRadiusCheck(this._plane, this._island);
-
-        //    this._clouds.forEach(cloud => {
-        //        cloud.Update();
-        //        managers.Collision.squaredRadiusCheck(this._plane, cloud);
-        //    });
+            this.UpdateLabels();
 
         }
         
@@ -151,6 +145,10 @@ module scenes
             this._enemies.forEach(enemy => {
                 this.addChild(enemy);
             });
+
+            this.addChild(this._labelArea);
+            this.addChild(this._lifeLabel);
+            this.addChild(this._bombsLabel);
             // this.addChild(this._ocean);
 
             // this.addChild(this._island);
@@ -164,6 +162,27 @@ module scenes
             // this.addChild(this._scoreBoard.LivesLabel);
 
             // this.addChild(this._scoreBoard.ScoreLabel);
+        }
+
+        public UpdateLabels(): void
+        {
+            this.removeChild(this._lifeLabel);
+            this.removeChild(this._bombsLabel);
+           
+            this._lifeLabel = new objects.Label("Life: " + this._player.Life, "20px", "Consolas", "#FFFFFF", 0, 0, false);
+            this._bombsLabel = new objects.Label("Bombs: " + this._player.BombCount, "20px", "Consolas", "#FFFFFF", 0, 25, false);
+
+            this.addChild(this._lifeLabel);
+            this.addChild(this._bombsLabel);
+        }
+
+        public DrawRectangle(x:number, y:number, w:number, h:number, color:string): createjs.Shape
+        {
+            let shape = new createjs.Shape();
+            shape.graphics.beginFill(color);
+            shape.graphics.drawRect(x, y, w, h);
+            shape.graphics.endFill();
+            return shape;
         }
 
         public Clean():void

@@ -30,7 +30,7 @@ module objects
         }
         public Update(): void 
         {
-            this.alpha -= 0.01;
+            this.alpha -= 0.05;
         }
         public Reset(): void 
         {

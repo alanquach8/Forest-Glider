@@ -3,6 +3,7 @@ module objects
     export class Player extends GameObject
     {
         // PRIVATE INSTANCE MEMBERS
+        private _life:number = 5;
         private _up:boolean;
         private _down:boolean;
         private _left:boolean;
@@ -16,11 +17,17 @@ module objects
 
         private _bombs:Array<objects.Bomb>;
         private _isThrowingBomb:boolean;
-        private _bombCount:number = 3;
+        private _bombCount:number = 5;
         private _bombReloadSpeed: number = 50;
         private _bombReloadCounter: number = 0;
 
         // PUBLIC PROPERTIES
+        public get Life():number {
+            return this._life;
+        }
+        public set Life(value:number) {
+            this._life = value;
+        }
         public get Up():boolean {
             return this._up;
         }
@@ -62,6 +69,12 @@ module objects
         }
         public set Bombs(value:Array<objects.Bomb>) {
             this._bombs = value;
+        }
+        public get BombCount():number {
+            return this._bombCount;
+        }
+        public set BombCount(value:number) {
+            this._bombCount = value;
         }
         
 

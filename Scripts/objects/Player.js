@@ -19,10 +19,12 @@ var objects;
         // CONSTRUCTOR
         function Player() {
             var _this = _super.call(this, config.Game.ASSETS.getResult(config.Game.SELECTED_CHARACTER), 50, config.Game.SCREEN_HEIGHT / 2, true) || this;
+            // PRIVATE INSTANCE MEMBERS
+            _this._life = 5;
             _this._speed = 2;
             _this._reloadSpeed = 15;
             _this._reloadCounter = 0;
-            _this._bombCount = 3;
+            _this._bombCount = 5;
             _this._bombReloadSpeed = 50;
             _this._bombReloadCounter = 0;
             // player_f
@@ -77,8 +79,18 @@ var objects;
             _this.Start();
             return _this;
         }
-        Object.defineProperty(Player.prototype, "Up", {
+        Object.defineProperty(Player.prototype, "Life", {
             // PUBLIC PROPERTIES
+            get: function () {
+                return this._life;
+            },
+            set: function (value) {
+                this._life = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Player.prototype, "Up", {
             get: function () {
                 return this._up;
             },
@@ -144,6 +156,16 @@ var objects;
             },
             set: function (value) {
                 this._bombs = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Player.prototype, "BombCount", {
+            get: function () {
+                return this._bombCount;
+            },
+            set: function (value) {
+                this._bombCount = value;
             },
             enumerable: true,
             configurable: true

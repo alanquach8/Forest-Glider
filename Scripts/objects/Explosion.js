@@ -40,7 +40,7 @@ var objects;
         Explosion.prototype.Start = function () {
         };
         Explosion.prototype.Update = function () {
-            this.alpha -= 0.01;
+            this.alpha -= 0.05;
         };
         Explosion.prototype.Reset = function () {
         };

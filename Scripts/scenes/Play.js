@@ -37,10 +37,13 @@ var scenes;
             config.Game.CURRENT_SCENE = this;
             this._forest = new objects.Forest();
             this._player = new objects.Player();
+            this._labelArea = this.DrawRectangle(0, 0, config.Game.SCREEN_WIDTH, 50, "#000000");
+            this._labelArea.alpha = 0.5;
+            this._lifeLabel = new objects.Label("Life: " + this._player.Life, "20px", "Consolas", "#FFFFFF", 0, 0, false);
+            this._bombsLabel = new objects.Label("Bombs: " + this._player.BombCount, "20px", "Consolas", "#FFFFFF", 0, 25, false);
             this._enemies = new Array();
             var anEnemy = new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), -100, -100);
-            anEnemy.Speed = 0;
-            this._enemies.push(anEnemy); // 1 enemy offscreen for update function to function properly
+            this._enemies.push(anEnemy);
             for (var i = 0; i < this._noOfEnemies; i++) {
                 this._enemies.push(new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), Math.floor(util.Mathf.RandomRange(500, 2000)), Math.floor(util.Mathf.RandomRange(50, 400))));
             }
@@ -90,11 +93,6 @@ var scenes;
                 });
                 _this._explosions.forEach(function (explosion) {
                     managers.Collision.AABBCheck(explosion, enemy);
-                    explosion.Update();
-                    if (explosion.alpha <= 0) {
-                        _this.removeChild(explosion);
-                        _this._explosions.splice(_this._explosions.indexOf(explosion), 1);
-                    }
                 });
                 enemy.Update();
                 if (enemy.IsDead) {
@@ -103,18 +101,14 @@ var scenes;
                     console.log(_this._enemies.length);
                 }
             });
-            // array of enemies - update
-            // boss - update
-            // collisions
-            // collision: obj1 instanceof, obj2 instanceof
-            //    this._ocean.Update();
-            //    this._island.Update();
-            //    this._plane.Update();
-            //    managers.Collision.squaredRadiusCheck(this._plane, this._island);
-            //    this._clouds.forEach(cloud => {
-            //        cloud.Update();
-            //        managers.Collision.squaredRadiusCheck(this._plane, cloud);
-            //    });
+            this._explosions.forEach(function (explosion) {
+                explosion.Update();
+                if (explosion.alpha <= 0) {
+                    _this.removeChild(explosion);
+                    _this._explosions.splice(_this._explosions.indexOf(explosion), 1);
+                }
+            });
+            this.UpdateLabels();
         };
         Play.prototype.Main = function () {
             var _this = this;
@@ -123,6 +117,9 @@ var scenes;
             this._enemies.forEach(function (enemy) {
                 _this.addChild(enemy);
             });
+            this.addChild(this._labelArea);
+            this.addChild(this._lifeLabel);
+            this.addChild(this._bombsLabel);
             // this.addChild(this._ocean);
             // this.addChild(this._island);
             // this.addChild(this._plane);
@@ -131,6 +128,21 @@ var scenes;
             // });
             // this.addChild(this._scoreBoard.LivesLabel);
             // this.addChild(this._scoreBoard.ScoreLabel);
+        };
+        Play.prototype.UpdateLabels = function () {
+            this.removeChild(this._lifeLabel);
+            this.removeChild(this._bombsLabel);
+            this._lifeLabel = new objects.Label("Life: " + this._player.Life, "20px", "Consolas", "#FFFFFF", 0, 0, false);
+            this._bombsLabel = new objects.Label("Bombs: " + this._player.BombCount, "20px", "Consolas", "#FFFFFF", 0, 25, false);
+            this.addChild(this._lifeLabel);
+            this.addChild(this._bombsLabel);
+        };
+        Play.prototype.DrawRectangle = function (x, y, w, h, color) {
+            var shape = new createjs.Shape();
+            shape.graphics.beginFill(color);
+            shape.graphics.drawRect(x, y, w, h);
+            shape.graphics.endFill();
+            return shape;
         };
         Play.prototype.Clean = function () {
             // this._plane.engineSound.stop();
