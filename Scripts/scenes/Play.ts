@@ -8,6 +8,8 @@ module scenes
 
         private _enemies?: Array<objects.Enemy>;
         private _noOfEnemies: number = 10;
+        
+        private _explosions?: Array<objects.Explosion>;
         // private _ocean?: objects.Ocean;
         // private _plane?: objects.Plane;
         // private _island?: objects.Island;
@@ -39,10 +41,15 @@ module scenes
             this._player = new objects.Player();
 
             this._enemies = new Array<objects.Enemy>();
+            let anEnemy = new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), -100, -100);
+            anEnemy.Speed = 0;
+            this._enemies.push(anEnemy); // 1 enemy offscreen for update function to function properly
             for(let i=0; i<this._noOfEnemies; i++)
             {
                 this._enemies.push(new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), Math.floor(util.Mathf.RandomRange(500, 2000)), Math.floor(util.Mathf.RandomRange(50, 400))));
             }
+
+            this._explosions = new Array<objects.Explosion>();
             // this._ocean = new objects.Ocean();
             // this._plane = new objects.Plane();
             // this._island = new objects.Island();
@@ -80,6 +87,29 @@ module scenes
                     {
                         this.removeChild(star);
                         this._player.ThrowingStars.splice(this._player.ThrowingStars.indexOf(star), 1);
+                    }
+                });
+                this._player.Bombs.forEach(bomb => {
+                    managers.Collision.AABBCheck(bomb, enemy);
+                    if(bomb.Exploded)
+                    {
+                        let explosion = new objects.Explosion(bomb.x, bomb.y, bomb.Damage)
+                        this._explosions.push(explosion);
+                        this.addChild(explosion);
+                    }
+                    if(bomb.alpha <= 0)
+                    {
+                        this.removeChild(bomb);
+                        this._player.Bombs.splice(this._player.Bombs.indexOf(bomb), 1);
+                    }
+                });
+                this._explosions.forEach(explosion => {
+                    managers.Collision.AABBCheck(explosion, enemy);
+                    explosion.Update();
+                    if(explosion.alpha <= 0)
+                    {
+                        this.removeChild(explosion);
+                        this._explosions.splice(this._explosions.indexOf(explosion), 1);
                     }
                 });
                 enemy.Update();

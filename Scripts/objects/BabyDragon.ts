@@ -35,7 +35,7 @@ module objects
             // Baby Dragons fly leftward, swinging up/down
             // this.y - math.sin() - radians
             this.position = new objects.Vector2(this.x-this._speed, this.y);
-            if(this.Life == 0)
+            if(this.Life <= 0)
             {
                 this._isDying = true;
                 // death animation before setting isDead=true

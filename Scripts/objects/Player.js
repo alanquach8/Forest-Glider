@@ -22,6 +22,9 @@ var objects;
             _this._speed = 2;
             _this._reloadSpeed = 15;
             _this._reloadCounter = 0;
+            _this._bombCount = 3;
+            _this._bombReloadSpeed = 50;
+            _this._bombReloadCounter = 0;
             // player_f
             window.addEventListener('keyup', function (e) {
                 switch (e.code) {
@@ -41,6 +44,9 @@ var objects;
                         break;
                     case "KeyJ":
                         _this._isThrowing = false;
+                        break;
+                    case "KeyK":
+                        _this._isThrowingBomb = false;
                         break;
                 }
             });
@@ -62,6 +68,9 @@ var objects;
                         break;
                     case "KeyJ":
                         _this._isThrowing = true;
+                        break;
+                    case "KeyK":
+                        _this._isThrowingBomb = true;
                         break;
                 }
             });
@@ -129,6 +138,16 @@ var objects;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(Player.prototype, "Bombs", {
+            get: function () {
+                return this._bombs;
+            },
+            set: function (value) {
+                this._bombs = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         // PRIVATE METHODS
         Player.prototype._checkBounds = function () {
             if (this.x - this.halfWidth < 0) {
@@ -147,6 +166,7 @@ var objects;
         // PUBLIC METHODS
         Player.prototype.Start = function () {
             this._throwingStars = new Array();
+            this._bombs = new Array();
         };
         Player.prototype.Update = function () {
             var _this = this;
@@ -192,6 +212,26 @@ var objects;
                     _this._throwingStars.splice(_this._throwingStars.indexOf(star), 1);
                     config.Game.CURRENT_SCENE.removeChild(star);
                 }
+            });
+            if (this._isThrowingBomb && this._bombCount > 0) {
+                if (this._bombReloadCounter == 0) {
+                    var bomb = new objects.Bomb(this.x, this.y);
+                    this._bombs.push(bomb);
+                    config.Game.CURRENT_SCENE.addChild(bomb);
+                    this._bombReloadCounter = this._bombReloadSpeed;
+                    this._bombCount--;
+                }
+                else {
+                    this._bombReloadCounter--;
+                }
+            }
+            else {
+                if (this._bombReloadCounter != 0) {
+                    this._bombReloadCounter--;
+                }
+            }
+            this._bombs.forEach(function (bomb) {
+                bomb.Update();
             });
             this._checkBounds();
         };

@@ -36,6 +36,8 @@ let Game = (function(){
         {id:"star_m", src:"./Assets/images/star_m.png"},
         {id:"star_f", src:"./Assets/images/star_f.png"},
         {id:"star_impact", src:"./Assets/images/star_impact.png"},
+        {id:"bomb", src:"./Assets/images/bomb.png"},
+        {id:"bomb_explosion", src:"./Assets/images/bomb_explosion.png"},
         {id:"baby_dragon_green", src:"./Assets/images/baby_dragon_green.png"},
         {id:"baby_dragon_red", src:"./Assets/images/baby_dragon_red.png"}
     ];

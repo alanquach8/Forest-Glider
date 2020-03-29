@@ -38,9 +38,13 @@ var scenes;
             this._forest = new objects.Forest();
             this._player = new objects.Player();
             this._enemies = new Array();
+            var anEnemy = new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), -100, -100);
+            anEnemy.Speed = 0;
+            this._enemies.push(anEnemy); // 1 enemy offscreen for update function to function properly
             for (var i = 0; i < this._noOfEnemies; i++) {
                 this._enemies.push(new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), Math.floor(util.Mathf.RandomRange(500, 2000)), Math.floor(util.Mathf.RandomRange(50, 400))));
             }
+            this._explosions = new Array();
             // this._ocean = new objects.Ocean();
             // this._plane = new objects.Plane();
             // this._island = new objects.Island();
@@ -70,6 +74,26 @@ var scenes;
                     if (star.alpha <= 0) {
                         _this.removeChild(star);
                         _this._player.ThrowingStars.splice(_this._player.ThrowingStars.indexOf(star), 1);
+                    }
+                });
+                _this._player.Bombs.forEach(function (bomb) {
+                    managers.Collision.AABBCheck(bomb, enemy);
+                    if (bomb.Exploded) {
+                        var explosion = new objects.Explosion(bomb.x, bomb.y, bomb.Damage);
+                        _this._explosions.push(explosion);
+                        _this.addChild(explosion);
+                    }
+                    if (bomb.alpha <= 0) {
+                        _this.removeChild(bomb);
+                        _this._player.Bombs.splice(_this._player.Bombs.indexOf(bomb), 1);
+                    }
+                });
+                _this._explosions.forEach(function (explosion) {
+                    managers.Collision.AABBCheck(explosion, enemy);
+                    explosion.Update();
+                    if (explosion.alpha <= 0) {
+                        _this.removeChild(explosion);
+                        _this._explosions.splice(_this._explosions.indexOf(explosion), 1);
                     }
                 });
                 enemy.Update();

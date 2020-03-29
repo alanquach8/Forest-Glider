@@ -14,6 +14,12 @@ module objects
         private _reloadSpeed:number = 15;
         private _reloadCounter:number = 0;
 
+        private _bombs:Array<objects.Bomb>;
+        private _isThrowingBomb:boolean;
+        private _bombCount:number = 3;
+        private _bombReloadSpeed: number = 50;
+        private _bombReloadCounter: number = 0;
+
         // PUBLIC PROPERTIES
         public get Up():boolean {
             return this._up;
@@ -51,6 +57,12 @@ module objects
         public set ThrowingStars(value:Array<objects.ThrowingStar>) {
             this._throwingStars = value;
         }
+        public get Bombs():Array<objects.Bomb> {
+            return this._bombs;
+        }
+        public set Bombs(value:Array<objects.Bomb>) {
+            this._bombs = value;
+        }
         
 
         // CONSTRUCTOR
@@ -78,6 +90,9 @@ module objects
                     case "KeyJ":
                         this._isThrowing = false;
                         break;
+                    case "KeyK":
+                        this._isThrowingBomb = false;
+                        break;
                 }
             });
 
@@ -99,6 +114,9 @@ module objects
                         break;
                     case "KeyJ":
                         this._isThrowing = true;
+                        break;
+                    case "KeyK":
+                        this._isThrowingBomb = true;
                         break;
                 }
             });
@@ -127,7 +145,8 @@ module objects
 
         public Start(): void 
         {
-            this._throwingStars = new Array<ThrowingStar>();
+            this._throwingStars = new Array<objects.ThrowingStar>();
+            this._bombs = new Array<objects.Bomb>();
         }
 
         public Update(): void 
@@ -181,6 +200,28 @@ module objects
                     this._throwingStars.splice(this._throwingStars.indexOf(star), 1);
                     config.Game.CURRENT_SCENE.removeChild(star);
                 }
+            });
+
+            if(this._isThrowingBomb && this._bombCount > 0)
+            {
+                if(this._bombReloadCounter == 0)
+                {
+                    let bomb = new objects.Bomb(this.x, this.y);
+                    this._bombs.push(bomb);
+                    config.Game.CURRENT_SCENE.addChild(bomb);
+                    this._bombReloadCounter = this._bombReloadSpeed;
+                    this._bombCount--;
+                } else {
+                    this._bombReloadCounter--;
+                }
+            } else {
+                if(this._bombReloadCounter != 0)
+                {
+                    this._bombReloadCounter--;
+                }
+            }
+            this._bombs.forEach(bomb => {
+                bomb.Update();
             });
             this._checkBounds();
         }
