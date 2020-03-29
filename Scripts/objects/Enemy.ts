@@ -7,6 +7,7 @@ module objects
         // speed
         protected abstract _speed:number;
         protected abstract _life:number;
+        protected abstract _isDying:boolean;
         protected abstract _isDead:boolean;
 
         // PUBLIC PROPERTIES

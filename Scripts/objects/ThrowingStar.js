@@ -22,6 +22,7 @@ var objects;
             // PRIVATE INSTANCE MEMBERS
             _this._speed = 20;
             _this._damage = 1;
+            _this._impact = false;
             _this.Start();
             return _this;
         }
@@ -54,8 +55,17 @@ var objects;
         };
         ThrowingStar.prototype.Update = function () {
             this.position = new objects.Vector2(this.x + this._speed, this.y);
+            if (this._impact) {
+                this.alpha -= 0.1;
+                this._speed = 0;
+                this._damage = 0;
+            }
         };
         ThrowingStar.prototype.Reset = function () {
+        };
+        ThrowingStar.prototype.Impact = function () {
+            this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("star_impact")).image;
+            this._impact = true;
         };
         ThrowingStar.prototype.IsOffScreen = function () {
             return this.x > config.Game.SCREEN_WIDTH;

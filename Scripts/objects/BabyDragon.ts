@@ -6,6 +6,7 @@ module objects
         // PRIVATE INSTANCE MEMBERS
         protected _speed: number;
         protected _life: number;
+        protected _isDying: boolean;
         protected _isDead: boolean;
 
         // PUBLIC PROPERTIES
@@ -36,8 +37,17 @@ module objects
             this.position = new objects.Vector2(this.x-this._speed, this.y);
             if(this.Life == 0)
             {
-                this._isDead = true;
+                this._isDying = true;
                 // death animation before setting isDead=true
+            }
+            if(this._isDying)
+            {
+                this._speed = 0;
+                this.alpha -= 0.1;
+                if(this.alpha <= 0)
+                {
+                    this._isDead = true;
+                }
             }
         }
         public Reset(): void 

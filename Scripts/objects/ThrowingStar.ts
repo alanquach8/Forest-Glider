@@ -5,6 +5,7 @@ module objects
         // PRIVATE INSTANCE MEMBERS
         private _speed:number = 20;
         private _damage:number = 1;
+        private _impact:boolean = false;
         // PUBLIC PROPERTIES
         public get Speed():number {
             return this._speed;
@@ -37,10 +38,22 @@ module objects
         public Update(): void 
         {
             this.position = new objects.Vector2(this.x + this._speed, this.y);
+            if(this._impact)
+            {
+                this.alpha -= 0.1;
+                this._speed = 0;
+                this._damage = 0;
+            }
         }
         public Reset(): void 
         {
             
+        }
+
+        public Impact(): void
+        {
+            this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("star_impact")).image;
+            this._impact = true;
         }
 
         public IsOffScreen(): boolean

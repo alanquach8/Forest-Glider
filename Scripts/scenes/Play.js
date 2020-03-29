@@ -63,6 +63,11 @@ var scenes;
                 _this._player.ThrowingStars.forEach(function (star) {
                     managers.Collision.AABBCheck(star, enemy);
                     if (enemy.isColliding) {
+                        star.Impact();
+                        // this.removeChild(star);
+                        // this._player.ThrowingStars.splice(this._player.ThrowingStars.indexOf(star), 1);
+                    }
+                    if (star.alpha <= 0) {
                         _this.removeChild(star);
                         _this._player.ThrowingStars.splice(_this._player.ThrowingStars.indexOf(star), 1);
                     }

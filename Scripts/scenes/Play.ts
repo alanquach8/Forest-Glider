@@ -72,6 +72,12 @@ module scenes
                     managers.Collision.AABBCheck(star, enemy);
                     if(enemy.isColliding)
                     {
+                        star.Impact()
+                        // this.removeChild(star);
+                        // this._player.ThrowingStars.splice(this._player.ThrowingStars.indexOf(star), 1);
+                    }
+                    if(star.alpha <= 0)
+                    {
                         this.removeChild(star);
                         this._player.ThrowingStars.splice(this._player.ThrowingStars.indexOf(star), 1);
                     }

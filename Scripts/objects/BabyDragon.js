@@ -37,8 +37,15 @@ var objects;
             // this.y - math.sin() - radians
             this.position = new objects.Vector2(this.x - this._speed, this.y);
             if (this.Life == 0) {
-                this._isDead = true;
+                this._isDying = true;
                 // death animation before setting isDead=true
+            }
+            if (this._isDying) {
+                this._speed = 0;
+                this.alpha -= 0.1;
+                if (this.alpha <= 0) {
+                    this._isDead = true;
+                }
             }
         };
         BabyDragon.prototype.Reset = function () {

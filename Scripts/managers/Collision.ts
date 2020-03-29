@@ -73,6 +73,8 @@ module managers
                     console.log("Collision!");
                     object2.isColliding = true;
 
+                    // handle all life reduction related events here
+                    // Play scene handles rest (animation, dying, removing, etc.)
                     if(object1 instanceof objects.ThrowingStar && object2 instanceof objects.Enemy)
                     {
                         object2.Life -= object1.Damage;
