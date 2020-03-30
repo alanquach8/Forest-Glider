@@ -21,6 +21,7 @@ var objects;
             var _this = _super.call(this, config.Game.ASSETS.getResult(config.Game.SELECTED_CHARACTER), 50, config.Game.SCREEN_HEIGHT / 2, true) || this;
             // PRIVATE INSTANCE MEMBERS
             _this._life = 5;
+            _this._score = 0;
             _this._invincible = false;
             _this._invincibleDuration = 100;
             _this._invincibleCounter = 0;
@@ -89,6 +90,16 @@ var objects;
             },
             set: function (value) {
                 this._life = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Player.prototype, "Score", {
+            get: function () {
+                return this._score;
+            },
+            set: function (value) {
+                this._score = value;
             },
             enumerable: true,
             configurable: true

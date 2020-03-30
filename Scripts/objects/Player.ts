@@ -4,6 +4,7 @@ module objects
     {
         // PRIVATE INSTANCE MEMBERS
         private _life:number = 5;
+        private _score:number = 0;
         private _invincible:boolean = false;
         private _invincibleDuration = 100;
         private _invincibleCounter = 0;
@@ -31,6 +32,12 @@ module objects
         }
         public set Life(value:number) {
             this._life = value;
+        }
+        public get Score():number {
+            return this._score;
+        }
+        public set Score(value:number) {
+            this._score = value;
         }
         public get Invincible():boolean {
             return this._invincible;

@@ -9,6 +9,7 @@ module objects
         protected _isDying: boolean;
         protected _isDead: boolean;
         protected _damage: number = 1;
+        protected _points: number = 1;
 
         // PUBLIC PROPERTIES
 

@@ -26,6 +26,7 @@ var scenes;
         // CONSTRUCTOR
         function Play() {
             var _this = _super.call(this) || this;
+            _this._labelColor = "#FFFF00";
             _this._noOfEnemies = 10;
             _this.Start();
             return _this;
@@ -39,8 +40,9 @@ var scenes;
             this._player = new objects.Player();
             this._labelArea = this.DrawRectangle(0, 0, config.Game.SCREEN_WIDTH, 50, "#000000");
             this._labelArea.alpha = 0.5;
-            this._lifeLabel = new objects.Label("Life: " + this._player.Life, "20px", "Consolas", "#FFFFFF", 0, 0, false);
-            this._bombsLabel = new objects.Label("Bombs: " + this._player.BombCount, "20px", "Consolas", "#FFFFFF", 0, 25, false);
+            this._lifeLabel = new objects.Label("Life: " + this._player.Life, "20px", "Consolas", this._labelColor, 0, 0, false);
+            this._bombsLabel = new objects.Label("Bombs: " + this._player.BombCount, "20px", "Consolas", this._labelColor, 0, 25, false);
+            this._scoreLabel = new objects.Label("Score: " + this._player.Score, "20px", "Consolas", this._labelColor, config.Game.SCREEN_WIDTH / 2, 0, false);
             this._enemies = new Array();
             var anEnemy = new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), -100, -100);
             this._enemies.push(anEnemy);
@@ -101,6 +103,7 @@ var scenes;
                     _this._enemies.splice(_this._enemies.indexOf(enemy), 1);
                     _this.removeChild(enemy);
                     console.log(_this._enemies.length);
+                    _this._player.Score += enemy.Points;
                 }
             });
             this._explosions.forEach(function (explosion) {
@@ -134,10 +137,13 @@ var scenes;
         Play.prototype.UpdateLabels = function () {
             this.removeChild(this._lifeLabel);
             this.removeChild(this._bombsLabel);
-            this._lifeLabel = new objects.Label("Life: " + this._player.Life, "20px", "Consolas", "#FFFFFF", 0, 0, false);
-            this._bombsLabel = new objects.Label("Bombs: " + this._player.BombCount, "20px", "Consolas", "#FFFFFF", 0, 25, false);
+            this.removeChild(this._scoreLabel);
+            this._lifeLabel = new objects.Label("Life: " + this._player.Life, "20px", "Consolas", this._labelColor, 0, 0, false);
+            this._bombsLabel = new objects.Label("Bombs: " + this._player.BombCount, "20px", "Consolas", this._labelColor, 0, 25, false);
+            this._scoreLabel = new objects.Label("Score: " + this._player.Score, "20px", "Consolas", this._labelColor, config.Game.SCREEN_WIDTH / 2, 0, false);
             this.addChild(this._lifeLabel);
             this.addChild(this._bombsLabel);
+            this.addChild(this._scoreLabel);
         };
         Play.prototype.DrawRectangle = function (x, y, w, h, color) {
             var shape = new createjs.Shape();

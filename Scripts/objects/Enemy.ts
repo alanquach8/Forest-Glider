@@ -10,6 +10,7 @@ module objects
         protected abstract _isDying:boolean;
         protected abstract _isDead:boolean;
         protected abstract _damage:number;
+        protected abstract _points:number;
 
         // PUBLIC PROPERTIES
         get Speed():number
@@ -43,6 +44,14 @@ module objects
         set Damage(value:number)
         {
             this._damage = value;
+        }
+        get Points():number
+        {
+            return this._points;
+        }
+        set Points(value:number)
+        {
+            this._points = value;
         }
 
         // CONSTRUCTOR
