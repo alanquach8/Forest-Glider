@@ -36,6 +36,9 @@ var scenes;
         //initialize and instatiate
         Play.prototype.Start = function () {
             config.Game.CURRENT_SCENE = this;
+            this._backgroundTheme = createjs.Sound.play("background_theme");
+            this._backgroundTheme.loop = -1; // loop forever
+            this._backgroundTheme.volume = 0.05; // 10% volume
             this._forest = new objects.Forest();
             this._player = new objects.Player();
             this._labelArea = this.DrawRectangle(0, 0, config.Game.SCREEN_WIDTH, 50, "#000000");
@@ -66,6 +69,12 @@ var scenes;
         };
         Play.prototype.Update = function () {
             var _this = this;
+            // if(this._enemies.length == 5) {
+            //     this._backgroundTheme.stop();
+            //     this._backgroundTheme = createjs.Sound.play("boss_theme");
+            //     this._backgroundTheme.loop = -1; // loop forever
+            //     this._backgroundTheme.volume = 0.05; // 10% volume
+            // }
             this._forest.Update();
             this._player.Update();
             this._enemies.forEach(function (enemy) {

@@ -16,6 +16,8 @@ module scenes
         private _noOfEnemies: number = 10;
         
         private _explosions?: Array<objects.Explosion>;
+
+        private _backgroundTheme? : createjs.AbstractSoundInstance;
         // private _ocean?: objects.Ocean;
         // private _plane?: objects.Plane;
         // private _island?: objects.Island;
@@ -43,6 +45,10 @@ module scenes
         public Start(): void 
         {
             config.Game.CURRENT_SCENE = this;
+            this._backgroundTheme = createjs.Sound.play("background_theme");
+            this._backgroundTheme.loop = -1; // loop forever
+            this._backgroundTheme.volume = 0.05; // 10% volume
+
             this._forest = new objects.Forest();
             this._player = new objects.Player();
 
@@ -82,6 +88,12 @@ module scenes
         
         public Update(): void 
         {
+            // if(this._enemies.length == 5) {
+            //     this._backgroundTheme.stop();
+            //     this._backgroundTheme = createjs.Sound.play("boss_theme");
+            //     this._backgroundTheme.loop = -1; // loop forever
+            //     this._backgroundTheme.volume = 0.05; // 10% volume
+            // }
             this._forest.Update();
             this._player.Update();
 

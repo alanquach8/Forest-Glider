@@ -21,6 +21,7 @@ var Game = (function () {
         { id: "engine", src: "./Assets/audio/engine.ogg" },
         { id: "yay", src: "./Assets/audio/yay.ogg" },
         { id: "thunder", src: "./Assets/audio/thunder.ogg" },
+        // images
         { id: "back_button", src: "./Assets/images/backButton.png" },
         { id: "play_button", src: "./Assets/images/playButton.png" },
         { id: "forest", src: "./Assets/images/forest.png" },
@@ -34,7 +35,14 @@ var Game = (function () {
         { id: "bomb", src: "./Assets/images/bomb.png" },
         { id: "bomb_explosion", src: "./Assets/images/bomb_explosion.png" },
         { id: "baby_dragon_green", src: "./Assets/images/baby_dragon_green.png" },
-        { id: "baby_dragon_red", src: "./Assets/images/baby_dragon_red.png" }
+        { id: "baby_dragon_red", src: "./Assets/images/baby_dragon_red.png" },
+        // audio
+        { id: "background_theme", src: "./Assets/audio/background_theme.ogg" },
+        { id: "boss_theme", src: "./Assets/audio/boss_theme.ogg" },
+        { id: "throwing_star", src: "./Assets/audio/throwing_star.ogg" },
+        { id: "throwing_star_impact", src: "./Assets/audio/throwing_star_impact.ogg" },
+        { id: "explosion", src: "./Assets/audio/explosion.ogg" },
+        { id: "player_gets_hit", src: "./Assets/audio/player_gets_hit.wav" }
     ];
     function Preload() {
         assets = new createjs.LoadQueue(); // asset container

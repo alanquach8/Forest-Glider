@@ -209,6 +209,7 @@ module objects
                     let star = new objects.ThrowingStar(this.x, this.y);
                     this._throwingStars.push(star);
                     config.Game.CURRENT_SCENE.addChild(star);
+                    createjs.Sound.play("throwing_star");
                     this._reloadCounter = this._reloadSpeed;
                 } else {
                     this._reloadCounter--;
@@ -270,6 +271,7 @@ module objects
 
         public GotHit(): void
         {
+            createjs.Sound.play("player_gets_hit");
             this._invincible = true;
             this._invincibleCounter = this._invincibleDuration;
             this.alpha = 0.3;

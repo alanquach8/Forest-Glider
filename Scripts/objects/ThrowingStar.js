@@ -23,6 +23,7 @@ var objects;
             _this._speed = 20;
             _this._damage = 1;
             _this._impact = false;
+            _this._playedImpactSound = false;
             _this.Start();
             return _this;
         }
@@ -65,6 +66,10 @@ var objects;
         };
         ThrowingStar.prototype.Impact = function () {
             this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("star_impact")).image;
+            if (!this._playedImpactSound) {
+                createjs.Sound.play("throwing_star_impact");
+                this._playedImpactSound = true;
+            }
             this._impact = true;
         };
         ThrowingStar.prototype.IsOffScreen = function () {

@@ -18,6 +18,7 @@ module objects
         {
             super(config.Game.ASSETS.getResult("bomb_explosion"), x, y, true);
             this._damage = damage;
+            this.Start();
         }
         // PRIVATE METHODS
         protected _checkBounds(): void 
@@ -27,6 +28,8 @@ module objects
 
         public Start(): void 
         {
+            let explosionSound = createjs.Sound.play("explosion");
+            explosionSound.volume = 0.1;
         }
         public Update(): void 
         {

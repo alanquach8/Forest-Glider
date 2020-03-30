@@ -20,6 +20,7 @@ var objects;
         function Explosion(x, y, damage) {
             var _this = _super.call(this, config.Game.ASSETS.getResult("bomb_explosion"), x, y, true) || this;
             _this._damage = damage;
+            _this.Start();
             return _this;
         }
         Object.defineProperty(Explosion.prototype, "Damage", {
@@ -38,6 +39,8 @@ var objects;
         };
         // PUBLIC METHODS
         Explosion.prototype.Start = function () {
+            var explosionSound = createjs.Sound.play("explosion");
+            explosionSound.volume = 0.1;
         };
         Explosion.prototype.Update = function () {
             this.alpha -= 0.05;

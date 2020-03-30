@@ -6,6 +6,7 @@ module objects
         private _speed:number = 20;
         private _damage:number = 1;
         private _impact:boolean = false;
+        private _playedImpactSound:boolean = false;
         // PUBLIC PROPERTIES
         public get Speed():number {
             return this._speed;
@@ -53,6 +54,12 @@ module objects
         public Impact(): void
         {
             this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("star_impact")).image;
+            if(!this._playedImpactSound)
+            {
+                createjs.Sound.play("throwing_star_impact");
+                this._playedImpactSound = true;
+            }
+            
             this._impact = true;
         }
 
