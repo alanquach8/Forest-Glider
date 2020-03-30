@@ -73,6 +73,15 @@ module managers
                     console.log("Collision!");
                     object2.isColliding = true;
 
+                    if(object1 instanceof objects.Player && object2 instanceof objects.Enemy)
+                    {
+                        if(!object1.Invincible)
+                        {
+                            object1.Life -= object2.Damage;
+                            object1.GotHit();
+                        }
+                        object2.isColliding = false;
+                    }
                     if(object1 instanceof objects.ThrowingStar && object2 instanceof objects.Enemy)
                     {
                         object2.Life -= object1.Damage;

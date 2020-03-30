@@ -83,6 +83,10 @@ module scenes
             this._player.Update();
 
             this._enemies.forEach(enemy => {
+                if(!this._player.Invincible)
+                {
+                    managers.Collision.AABBCheck(this._player, enemy);
+                }
                 this._player.ThrowingStars.forEach(star => {
                     managers.Collision.AABBCheck(star, enemy);
                     if(enemy.isColliding)

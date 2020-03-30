@@ -4,6 +4,10 @@ module objects
     {
         // PRIVATE INSTANCE MEMBERS
         private _life:number = 5;
+        private _invincible:boolean = false;
+        private _invincibleDuration = 100;
+        private _invincibleCounter = 0;
+
         private _up:boolean;
         private _down:boolean;
         private _left:boolean;
@@ -27,6 +31,12 @@ module objects
         }
         public set Life(value:number) {
             this._life = value;
+        }
+        public get Invincible():boolean {
+            return this._invincible;
+        }
+        public set Invincible(value:boolean) {
+            this._invincible = value;
         }
         public get Up():boolean {
             return this._up;
@@ -184,10 +194,7 @@ module objects
                 this.position = new objects.Vector2(this.x+this._speed, this.y);
                 //this.x += this._speed;
             }
-            // console.log('(x, y): (' + this.x + ', ' + this.y + ')');
-            // console.log('(regX, regY): (' + this.regX + ', ' + this.regY + ')');
-            // console.log('position(x, y): (' + this.position.x + ', ' + this.position.y + ')');
-            // console.log(this.rotation);
+
             if(this._isThrowing)
             {
                 if(this._reloadCounter == 0)
@@ -236,7 +243,29 @@ module objects
             this._bombs.forEach(bomb => {
                 bomb.Update();
             });
+
+            if(this._invincible)
+            {
+                this._invincibleCounter--;
+                if(this._invincibleCounter % 5 == 0)
+                {
+                    this.alpha == 0.3 ? this.alpha = 0.8 : this.alpha = 0.3;
+                }
+                if(this._invincibleCounter <= 0)
+                {
+                    this.isColliding = false;
+                    this._invincible = false;
+                    this.alpha = 1;
+                }
+            }
             this._checkBounds();
+        }
+
+        public GotHit(): void
+        {
+            this._invincible = true;
+            this._invincibleCounter = this._invincibleDuration;
+            this.alpha = 0.3;
         }
 
         public Reset(): void 

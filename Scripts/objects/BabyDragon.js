@@ -20,6 +20,7 @@ var objects;
         // CONSTRUCTOR
         function BabyDragon(imageString, x, y) {
             var _this = _super.call(this, imageString, x, y) || this;
+            _this._damage = 1;
             _this.Start();
             return _this;
         }

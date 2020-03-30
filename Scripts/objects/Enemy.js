@@ -51,6 +51,16 @@ var objects;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(Enemy.prototype, "Damage", {
+            get: function () {
+                return this._damage;
+            },
+            set: function (value) {
+                this._damage = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return Enemy;
     }(objects.GameObject));
     objects.Enemy = Enemy;

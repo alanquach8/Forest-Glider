@@ -8,6 +8,7 @@ module objects
         protected _life: number;
         protected _isDying: boolean;
         protected _isDead: boolean;
+        protected _damage: number = 1;
 
         // PUBLIC PROPERTIES
 

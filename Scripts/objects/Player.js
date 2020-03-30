@@ -21,6 +21,9 @@ var objects;
             var _this = _super.call(this, config.Game.ASSETS.getResult(config.Game.SELECTED_CHARACTER), 50, config.Game.SCREEN_HEIGHT / 2, true) || this;
             // PRIVATE INSTANCE MEMBERS
             _this._life = 5;
+            _this._invincible = false;
+            _this._invincibleDuration = 100;
+            _this._invincibleCounter = 0;
             _this._speed = 2;
             _this._reloadSpeed = 15;
             _this._reloadCounter = 0;
@@ -86,6 +89,16 @@ var objects;
             },
             set: function (value) {
                 this._life = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Player.prototype, "Invincible", {
+            get: function () {
+                return this._invincible;
+            },
+            set: function (value) {
+                this._invincible = value;
             },
             enumerable: true,
             configurable: true
@@ -208,10 +221,6 @@ var objects;
                 this.position = new objects.Vector2(this.x + this._speed, this.y);
                 //this.x += this._speed;
             }
-            // console.log('(x, y): (' + this.x + ', ' + this.y + ')');
-            // console.log('(regX, regY): (' + this.regX + ', ' + this.regY + ')');
-            // console.log('position(x, y): (' + this.position.x + ', ' + this.position.y + ')');
-            // console.log(this.rotation);
             if (this._isThrowing) {
                 if (this._reloadCounter == 0) {
                     var star = new objects.ThrowingStar(this.x, this.y);
@@ -255,7 +264,23 @@ var objects;
             this._bombs.forEach(function (bomb) {
                 bomb.Update();
             });
+            if (this._invincible) {
+                this._invincibleCounter--;
+                if (this._invincibleCounter % 5 == 0) {
+                    this.alpha == 0.3 ? this.alpha = 0.8 : this.alpha = 0.3;
+                }
+                if (this._invincibleCounter <= 0) {
+                    this.isColliding = false;
+                    this._invincible = false;
+                    this.alpha = 1;
+                }
+            }
             this._checkBounds();
+        };
+        Player.prototype.GotHit = function () {
+            this._invincible = true;
+            this._invincibleCounter = this._invincibleDuration;
+            this.alpha = 0.3;
         };
         Player.prototype.Reset = function () {
         };

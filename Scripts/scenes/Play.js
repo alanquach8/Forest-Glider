@@ -67,6 +67,9 @@ var scenes;
             this._forest.Update();
             this._player.Update();
             this._enemies.forEach(function (enemy) {
+                if (!_this._player.Invincible) {
+                    managers.Collision.AABBCheck(_this._player, enemy);
+                }
                 _this._player.ThrowingStars.forEach(function (star) {
                     managers.Collision.AABBCheck(star, enemy);
                     if (enemy.isColliding) {
