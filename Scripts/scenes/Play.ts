@@ -13,11 +13,15 @@ module scenes
         private _player?: objects.Player;
 
         private _enemies?: Array<objects.Enemy>;
-        private _noOfEnemies: number = 10;
+        private _maxNoOfEnemies: number = 3;
+        private _noOfEnemies: number = this._maxNoOfEnemies;
         
         private _explosions?: Array<objects.Explosion>;
 
-        private _backgroundTheme? : createjs.AbstractSoundInstance;
+        private _backgroundTheme?: createjs.AbstractSoundInstance;
+
+        private _bossBattle?: boolean = false;
+        private _boss?: objects.DragonBoss;
         // private _ocean?: objects.Ocean;
         // private _plane?: objects.Plane;
         // private _island?: objects.Island;
@@ -60,10 +64,12 @@ module scenes
 
             this._enemies = new Array<objects.Enemy>();
             let anEnemy = new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), -100, -100);
+            anEnemy.Speed = 0;
             this._enemies.push(anEnemy);
-            for(let i=0; i<this._noOfEnemies; i++)
+            for(let i=0; i<this._maxNoOfEnemies; i++)
             {
-                this._enemies.push(new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), Math.floor(util.Mathf.RandomRange(500, 2000)), Math.floor(util.Mathf.RandomRange(50, 400))));
+                this._enemies.push(new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), Math.floor(util.Mathf.RandomRange(500, 1200)), Math.floor(util.Mathf.RandomRange(50, 400))));
+                this._noOfEnemies--;
             }
 
             this._explosions = new Array<objects.Explosion>();
@@ -88,12 +94,28 @@ module scenes
         
         public Update(): void 
         {
-            // if(this._enemies.length == 5) {
-            //     this._backgroundTheme.stop();
-            //     this._backgroundTheme = createjs.Sound.play("boss_theme");
-            //     this._backgroundTheme.loop = -1; // loop forever
-            //     this._backgroundTheme.volume = 0.05; // 10% volume
-            // }
+            if(!this._bossBattle)
+            {
+                if(this._noOfEnemies == 0 && this._enemies.length == 1)
+                {
+                    this._bossBattle = true;
+                    console.log('BOSS BATTLE');
+                    this._backgroundTheme.stop();
+                    this._backgroundTheme = createjs.Sound.play("boss_theme");
+                    this._backgroundTheme.loop = -1;
+                    this._backgroundTheme.volume = 0.05;
+                    // spawn boss
+                    this._boss = new objects.DragonBoss(config.Game.ASSETS.getResult("dragon_boss_idle1"), config.Game.SCREEN_WIDTH-100, config.Game.SCREEN_HEIGHT/2);
+                    this._enemies.push(this._boss);
+                    this.addChild(this._boss);
+                }
+            }
+
+            if(this._boss != null) { 
+                this._boss.Update();
+                console.log("BOSS HP: " + this._boss.Life); 
+            }
+
             this._forest.Update();
             this._player.Update();
 
@@ -140,6 +162,12 @@ module scenes
                     console.log(this._enemies.length);
                     this._player.Score += enemy.Points;
                 }
+                if(enemy.IsOffScreen())
+                {
+                    this._enemies.splice(this._enemies.indexOf(enemy), 1);
+                    this.removeChild(enemy);
+                    console.log(this._enemies.length);
+                }
             });
 
             this._explosions.forEach(explosion => {
@@ -147,9 +175,16 @@ module scenes
                 if(explosion.alpha <= 0)
                 {
                     this.removeChild(explosion);
-                        this._explosions.splice(this._explosions.indexOf(explosion), 1);
+                    this._explosions.splice(this._explosions.indexOf(explosion), 1);
                 }
             });
+
+            if(this._explosions.length <= 0)
+            {
+                this._enemies.forEach(enemy => {
+                    enemy.HitByExplosion = false;
+                });
+            }
 
             this.UpdateLabels();
 

@@ -22,7 +22,7 @@ module objects
 
         private _bombs:Array<objects.Bomb>;
         private _isThrowingBomb:boolean;
-        private _bombCount:number = 5;
+        private _bombCount:number = 50;
         private _bombReloadSpeed: number = 50;
         private _bombReloadCounter: number = 0;
 

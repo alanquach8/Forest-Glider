@@ -89,12 +89,20 @@ module managers
 
                     if(object1 instanceof objects.Bomb && object2 instanceof objects.Enemy)
                     {
-                        object2.Life -= object1.Damage;
-                        object1.Explode();
+                        if(!object2.HitByExplosion)
+                        {
+                            object2.Life -= object1.Damage;
+                            object2.HitByExplosion = true;
+                            object1.Explode();
+                        }
                     }
                     if(object1 instanceof objects.Explosion && object2 instanceof objects.Enemy)
                     {
-                        object2.Life -= object1.Damage;
+                        if(!object2.HitByExplosion)
+                        {
+                            object2.Life -= object1.Damage;
+                            object2.HitByExplosion = true;
+                        }
                     }
 
                 }

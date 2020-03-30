@@ -18,8 +18,9 @@ var objects;
         __extends(BabyDragon, _super);
         // PUBLIC PROPERTIES
         // CONSTRUCTOR
-        function BabyDragon(imageString, x, y) {
-            var _this = _super.call(this, imageString, x, y) || this;
+        function BabyDragon(imageString, x, y, isCentered) {
+            if (isCentered === void 0) { isCentered = true; }
+            var _this = _super.call(this, imageString, x, y, isCentered) || this;
             _this._damage = 1;
             _this._points = 1;
             _this.Start();

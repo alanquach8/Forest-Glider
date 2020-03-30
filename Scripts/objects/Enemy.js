@@ -17,8 +17,11 @@ var objects;
     var Enemy = /** @class */ (function (_super) {
         __extends(Enemy, _super);
         // CONSTRUCTOR
-        function Enemy(imageString, x, y) {
-            return _super.call(this, imageString, x, y, true) || this;
+        function Enemy(imageString, x, y, isCentered) {
+            if (isCentered === void 0) { isCentered = true; }
+            var _this = _super.call(this, imageString, x, y, isCentered) || this;
+            _this._hitByExplosion = false;
+            return _this;
         }
         Object.defineProperty(Enemy.prototype, "Speed", {
             // PUBLIC PROPERTIES
@@ -71,6 +74,19 @@ var objects;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(Enemy.prototype, "HitByExplosion", {
+            get: function () {
+                return this._hitByExplosion;
+            },
+            set: function (value) {
+                this._hitByExplosion = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Enemy.prototype.IsOffScreen = function () {
+            return this.x < -110;
+        };
         return Enemy;
     }(objects.GameObject));
     objects.Enemy = Enemy;

@@ -41,6 +41,9 @@ let Game = (function(){
         {id:"bomb_explosion", src:"./Assets/images/bomb_explosion.png"},
         {id:"baby_dragon_green", src:"./Assets/images/baby_dragon_green.png"},
         {id:"baby_dragon_red", src:"./Assets/images/baby_dragon_red.png"},
+        {id:"dragon_boss_idle1", src:"./Assets/images/dragon_boss_idle1.png"},
+        {id:"dragon_boss_idle2", src:"./Assets/images/dragon_boss_idle2.png"},
+        {id:"dragon_boss_idle3", src:"./Assets/images/dragon_boss_idle3.png"},
 
         // audio
         {id:"background_theme", src:"./Assets/audio/background_theme.ogg"},

@@ -27,7 +27,9 @@ var scenes;
         function Play() {
             var _this = _super.call(this) || this;
             _this._labelColor = "#FFFF00";
-            _this._noOfEnemies = 10;
+            _this._maxNoOfEnemies = 3;
+            _this._noOfEnemies = _this._maxNoOfEnemies;
+            _this._bossBattle = false;
             _this.Start();
             return _this;
         }
@@ -48,9 +50,11 @@ var scenes;
             this._scoreLabel = new objects.Label("Score: " + this._player.Score, "20px", "Consolas", this._labelColor, config.Game.SCREEN_WIDTH / 2, 0, false);
             this._enemies = new Array();
             var anEnemy = new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), -100, -100);
+            anEnemy.Speed = 0;
             this._enemies.push(anEnemy);
-            for (var i = 0; i < this._noOfEnemies; i++) {
-                this._enemies.push(new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), Math.floor(util.Mathf.RandomRange(500, 2000)), Math.floor(util.Mathf.RandomRange(50, 400))));
+            for (var i = 0; i < this._maxNoOfEnemies; i++) {
+                this._enemies.push(new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), Math.floor(util.Mathf.RandomRange(500, 1200)), Math.floor(util.Mathf.RandomRange(50, 400))));
+                this._noOfEnemies--;
             }
             this._explosions = new Array();
             // this._ocean = new objects.Ocean();
@@ -69,12 +73,24 @@ var scenes;
         };
         Play.prototype.Update = function () {
             var _this = this;
-            // if(this._enemies.length == 5) {
-            //     this._backgroundTheme.stop();
-            //     this._backgroundTheme = createjs.Sound.play("boss_theme");
-            //     this._backgroundTheme.loop = -1; // loop forever
-            //     this._backgroundTheme.volume = 0.05; // 10% volume
-            // }
+            if (!this._bossBattle) {
+                if (this._noOfEnemies == 0 && this._enemies.length == 1) {
+                    this._bossBattle = true;
+                    console.log('BOSS BATTLE');
+                    this._backgroundTheme.stop();
+                    this._backgroundTheme = createjs.Sound.play("boss_theme");
+                    this._backgroundTheme.loop = -1;
+                    this._backgroundTheme.volume = 0.05;
+                    // spawn boss
+                    this._boss = new objects.DragonBoss(config.Game.ASSETS.getResult("dragon_boss_idle1"), config.Game.SCREEN_WIDTH - 100, config.Game.SCREEN_HEIGHT / 2);
+                    this._enemies.push(this._boss);
+                    this.addChild(this._boss);
+                }
+            }
+            if (this._boss != null) {
+                this._boss.Update();
+                console.log("BOSS HP: " + this._boss.Life);
+            }
             this._forest.Update();
             this._player.Update();
             this._enemies.forEach(function (enemy) {
@@ -114,6 +130,11 @@ var scenes;
                     console.log(_this._enemies.length);
                     _this._player.Score += enemy.Points;
                 }
+                if (enemy.IsOffScreen()) {
+                    _this._enemies.splice(_this._enemies.indexOf(enemy), 1);
+                    _this.removeChild(enemy);
+                    console.log(_this._enemies.length);
+                }
             });
             this._explosions.forEach(function (explosion) {
                 explosion.Update();
@@ -122,6 +143,11 @@ var scenes;
                     _this._explosions.splice(_this._explosions.indexOf(explosion), 1);
                 }
             });
+            if (this._explosions.length <= 0) {
+                this._enemies.forEach(function (enemy) {
+                    enemy.HitByExplosion = false;
+                });
+            }
             this.UpdateLabels();
         };
         Play.prototype.Main = function () {

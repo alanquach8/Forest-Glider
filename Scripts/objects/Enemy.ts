@@ -11,6 +11,7 @@ module objects
         protected abstract _isDead:boolean;
         protected abstract _damage:number;
         protected abstract _points:number;
+        private _hitByExplosion:boolean = false;
 
         // PUBLIC PROPERTIES
         get Speed():number
@@ -53,11 +54,19 @@ module objects
         {
             this._points = value;
         }
+        get HitByExplosion():boolean
+        {
+            return this._hitByExplosion;
+        }
+        set HitByExplosion(value:boolean)
+        {
+            this._hitByExplosion = value;
+        }
 
         // CONSTRUCTOR
-        constructor(imageString:object, x:number, y:number)
+        constructor(imageString:object, x:number, y:number, isCentered:boolean = true)
         {
-            super(imageString, x, y, true);
+            super(imageString, x, y, isCentered);
         }
 
         // PRIVATE METHODS
@@ -67,6 +76,11 @@ module objects
         public abstract Start(): void;
         public abstract Update(): void;
         public abstract Reset(): void;
+
+        public IsOffScreen(): boolean
+        {
+            return this.x < -110;
+        }
         
     }
 }

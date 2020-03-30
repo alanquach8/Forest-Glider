@@ -28,7 +28,7 @@ var objects;
             _this._speed = 2;
             _this._reloadSpeed = 15;
             _this._reloadCounter = 0;
-            _this._bombCount = 5;
+            _this._bombCount = 50;
             _this._bombReloadSpeed = 50;
             _this._bombReloadCounter = 0;
             // player_f
