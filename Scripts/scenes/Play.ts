@@ -22,6 +22,10 @@ module scenes
 
         private _bossBattle?: boolean = false;
         private _boss?: objects.DragonBoss;
+        private _spawningBoss?: boolean = false;
+        private _warningLabel?: objects.Label;
+        private _warningLabelPlaced?: boolean = false;
+        private _warningLabelFlash?: boolean = false;
         // private _ocean?: objects.Ocean;
         // private _plane?: objects.Plane;
         // private _island?: objects.Island;
@@ -94,99 +98,135 @@ module scenes
         
         public Update(): void 
         {
-            if(!this._bossBattle)
+            if(!this._spawningBoss)
             {
-                if(this._noOfEnemies == 0 && this._enemies.length == 1)
+                if(!this._bossBattle)
                 {
-                    this._bossBattle = true;
-                    console.log('BOSS BATTLE');
-                    this._backgroundTheme.stop();
-                    this._backgroundTheme = createjs.Sound.play("boss_theme");
-                    this._backgroundTheme.loop = -1;
-                    this._backgroundTheme.volume = 0.05;
-                    // spawn boss
-                    this._boss = new objects.DragonBoss(config.Game.ASSETS.getResult("dragon_boss_idle1"), config.Game.SCREEN_WIDTH-100, config.Game.SCREEN_HEIGHT/2);
-                    this._enemies.push(this._boss);
-                    this.addChild(this._boss);
-                }
-            }
-
-            if(this._boss != null) { 
-                this._boss.Update();
-                console.log("BOSS HP: " + this._boss.Life); 
-            }
-
-            this._forest.Update();
-            this._player.Update();
-
-            this._enemies.forEach(enemy => {
-                if(!this._player.Invincible)
-                {
-                    managers.Collision.AABBCheck(this._player, enemy);
-                }
-                this._player.ThrowingStars.forEach(star => {
-                    managers.Collision.AABBCheck(star, enemy);
-                    if(enemy.isColliding)
+                    if(this._noOfEnemies == 0 && this._enemies.length == 1)
                     {
-                        star.Impact();
-                        enemy.isColliding = false;
+                        this._bossBattle = true;
+                        console.log('BOSS BATTLE');
+                        this._backgroundTheme.stop();
+                        this._backgroundTheme = createjs.Sound.play("boss_theme");
+                        this._backgroundTheme.loop = -1;
+                        this._backgroundTheme.volume = 0.05;
+                        // spawn boss
+                        this._boss = new objects.DragonBoss(config.Game.ASSETS.getResult("dragon_boss_idle1"), config.Game.SCREEN_WIDTH+100, config.Game.SCREEN_HEIGHT/2);
+                        this._enemies.push(this._boss);
+                        this.addChild(this._boss);
+                        this._spawningBoss = true;
                     }
-                    if(star.alpha <= 0)
-                    {
-                        this.removeChild(star);
-                        this._player.ThrowingStars.splice(this._player.ThrowingStars.indexOf(star), 1);
-                    }
-                });
-                this._player.Bombs.forEach(bomb => {
-                    managers.Collision.AABBCheck(bomb, enemy);
-                    if(bomb.Exploded)
-                    {
-                        let explosion = new objects.Explosion(bomb.x, bomb.y, bomb.Damage)
-                        this._explosions.push(explosion);
-                        this.addChild(explosion);
-                    }
-                    if(bomb.alpha <= 0)
-                    {
-                        this.removeChild(bomb);
-                        this._player.Bombs.splice(this._player.Bombs.indexOf(bomb), 1);
-                    }
-                });
-                this._explosions.forEach(explosion => {
-                    managers.Collision.AABBCheck(explosion, enemy);
-                });
-                enemy.Update();
-                if(enemy.IsDead)
-                {
-                    this._enemies.splice(this._enemies.indexOf(enemy), 1);
-                    this.removeChild(enemy);
-                    console.log(this._enemies.length);
-                    this._player.Score += enemy.Points;
                 }
-                if(enemy.IsOffScreen())
-                {
-                    this._enemies.splice(this._enemies.indexOf(enemy), 1);
-                    this.removeChild(enemy);
-                    console.log(this._enemies.length);
-                }
-            });
 
-            this._explosions.forEach(explosion => {
-                explosion.Update();
-                if(explosion.alpha <= 0)
-                {
-                    this.removeChild(explosion);
-                    this._explosions.splice(this._explosions.indexOf(explosion), 1);
+                if(this._boss != null) { 
+                    this._boss.Update();
+                    console.log("BOSS HP: " + this._boss.Life); 
                 }
-            });
 
-            if(this._explosions.length <= 0)
-            {
+                this._forest.Update();
+                this._player.Update();
+
                 this._enemies.forEach(enemy => {
-                    enemy.HitByExplosion = false;
+                    if(!this._player.Invincible)
+                    {
+                        managers.Collision.AABBCheck(this._player, enemy);
+                    }
+                    this._player.ThrowingStars.forEach(star => {
+                        managers.Collision.AABBCheck(star, enemy);
+                        if(enemy.isColliding)
+                        {
+                            star.Impact();
+                            enemy.isColliding = false;
+                        }
+                        if(star.alpha <= 0)
+                        {
+                            this.removeChild(star);
+                            this._player.ThrowingStars.splice(this._player.ThrowingStars.indexOf(star), 1);
+                        }
+                    });
+                    this._player.Bombs.forEach(bomb => {
+                        managers.Collision.AABBCheck(bomb, enemy);
+                        if(bomb.Exploded)
+                        {
+                            let explosion = new objects.Explosion(bomb.x, bomb.y, bomb.Damage)
+                            this._explosions.push(explosion);
+                            this.addChild(explosion);
+                        }
+                        if(bomb.alpha <= 0)
+                        {
+                            this.removeChild(bomb);
+                            this._player.Bombs.splice(this._player.Bombs.indexOf(bomb), 1);
+                        }
+                    });
+                    this._explosions.forEach(explosion => {
+                        managers.Collision.AABBCheck(explosion, enemy);
+                    });
+                    enemy.Update();
+                    if(enemy.IsDead)
+                    {
+                        this._enemies.splice(this._enemies.indexOf(enemy), 1);
+                        this.removeChild(enemy);
+                        console.log(this._enemies.length);
+                        this._player.Score += enemy.Points;
+                    }
+                    if(enemy.IsOffScreen())
+                    {
+                        this._enemies.splice(this._enemies.indexOf(enemy), 1);
+                        this.removeChild(enemy);
+                        console.log(this._enemies.length);
+                    }
                 });
-            }
 
-            this.UpdateLabels();
+                this._explosions.forEach(explosion => {
+                    explosion.Update();
+                    if(explosion.alpha <= 0)
+                    {
+                        this.removeChild(explosion);
+                        this._explosions.splice(this._explosions.indexOf(explosion), 1);
+                    }
+                });
+
+                if(this._explosions.length <= 0)
+                {
+                    this._enemies.forEach(enemy => {
+                        enemy.HitByExplosion = false;
+                    });
+                }
+
+                this.UpdateLabels();
+            } else {
+                // spawning boss
+                if(this._boss.x >= config.Game.SCREEN_WIDTH-105)
+                {
+                    if(!this._warningLabelPlaced)
+                    {
+                        this._warningLabel = new objects.Label("WARNING!!!", "80px", "Consolas", "red", config.Game.SCREEN_WIDTH/2, config.Game.SCREEN_HEIGHT/2, true);
+                        this.addChild(this._warningLabel);
+                        this._warningLabelPlaced = true;
+                    } else {
+                        this.removeChild(this._warningLabel);
+                        if(!this._warningLabelFlash)
+                        {
+                            this._warningLabel.alpha -= 0.1;
+                        } else {
+                            this._warningLabel.alpha += 0.1;
+                        }
+                        if(this._warningLabel.alpha <= 0 || this._warningLabel.alpha >= 1)
+                        {
+                            this._warningLabelFlash = !this._warningLabelFlash;
+                        }
+                        this.addChild(this._warningLabel);
+                    }
+                    
+                    this._boss.Update();
+                    this._boss.position = new objects.Vector2(this._boss.x-0.5, this._boss.y);
+                } else {
+                    this._spawningBoss = false;
+                    this.removeChild(this._warningLabel);
+                }
+                
+            }
+            
 
         }
         

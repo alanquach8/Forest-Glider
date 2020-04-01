@@ -38,15 +38,15 @@ module objects
             {
                 this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("dragon_boss_idle1")).image;
             }
-            if(this._idleCounter == 15)
+            if(this._idleCounter == 20)
             {
                 this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("dragon_boss_idle2")).image;
             }
-            if(this._idleCounter == 30)
+            if(this._idleCounter == 40)
             {
                 this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("dragon_boss_idle3")).image;
             }
-            if(this._idleCounter == 45)
+            if(this._idleCounter == 59)
             {
                 this._idleCounter = 0;
             }
