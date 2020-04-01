@@ -44,6 +44,7 @@ let Game = (function(){
         {id:"dragon_boss_idle1", src:"./Assets/images/dragon_boss_idle1.png"},
         {id:"dragon_boss_idle2", src:"./Assets/images/dragon_boss_idle2.png"},
         {id:"dragon_boss_idle3", src:"./Assets/images/dragon_boss_idle3.png"},
+        {id:"dragon_boss_spawn", src:"./Assets/images/dragon_boss_spawn.png"},
 
         // audio
         {id:"background_theme", src:"./Assets/audio/background_theme.ogg"},

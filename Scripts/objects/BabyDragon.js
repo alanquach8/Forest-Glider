@@ -23,6 +23,11 @@ var objects;
             var _this = _super.call(this, imageString, x, y, isCentered) || this;
             _this._damage = 1;
             _this._points = 1;
+            _this._floatSpeed = 5;
+            _this._spawnPosition = new objects.Vector2(x, y);
+            _this._float = Math.floor(util.Mathf.RandomRange(10, 100));
+            _this._float % 2 == 0 ? _this._up = true : _this._up = false;
+            console.log(_this._up);
             _this.Start();
             return _this;
         }
@@ -38,7 +43,18 @@ var objects;
         BabyDragon.prototype.Update = function () {
             // Baby Dragons fly leftward, swinging up/down
             // this.y - math.sin() - radians
-            this.position = new objects.Vector2(this.x - this._speed, this.y);
+            if (this._up) {
+                this.position = new objects.Vector2(this.x - this._speed, this.y + this._floatSpeed);
+                if (this.y >= this._spawnPosition.y + this._float) {
+                    this._up = false;
+                }
+            }
+            else {
+                this.position = new objects.Vector2(this.x - this._speed, this.y - this._floatSpeed);
+                if (this.y <= this._spawnPosition.y - this._float) {
+                    this._up = true;
+                }
+            }
             if (this.Life <= 0) {
                 this._isDying = true;
                 // death animation before setting isDead=true

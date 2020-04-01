@@ -118,13 +118,21 @@ module scenes
                     }
                 }
 
-                if(this._boss != null) { 
-                    this._boss.Update();
-                    console.log("BOSS HP: " + this._boss.Life); 
-                }
-
                 this._forest.Update();
                 this._player.Update();
+
+                if(this._boss != null) { 
+                    this._boss.Update();
+                    //console.log("BOSS HP: " + this._boss.Life); 
+                    // ALL BOSS ATTACK UPDATES HERE
+                    // boss monster spawns
+                    this._boss.Spawns.forEach(spawn => {
+                        this._enemies.push(spawn);
+                        this.addChild(spawn);
+                        this._boss.Spawns.splice(this._boss.Spawns.indexOf(spawn), 1);
+                    });
+                    // boss fire balls
+                }
 
                 this._enemies.forEach(enemy => {
                     if(!this._player.Invincible)
@@ -223,6 +231,7 @@ module scenes
                 } else {
                     this._spawningBoss = false;
                     this.removeChild(this._warningLabel);
+                    this._boss.StartBattle = true;
                 }
                 
             }
