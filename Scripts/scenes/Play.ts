@@ -26,6 +26,9 @@ module scenes
         private _warningLabel?: objects.Label;
         private _warningLabelPlaced?: boolean = false;
         private _warningLabelFlash?: boolean = false;
+
+        private _win: boolean = false;
+        private _lose: boolean = false;
         // private _ocean?: objects.Ocean;
         // private _plane?: objects.Plane;
         // private _island?: objects.Island;
@@ -67,9 +70,9 @@ module scenes
             this._scoreLabel = new objects.Label("Score: " + this._player.Score, "20px", "Consolas", this._labelColor, config.Game.SCREEN_WIDTH/2, 0, false);
 
             this._enemies = new Array<objects.Enemy>();
-            let anEnemy = new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), -100, -100);
-            anEnemy.Speed = 0;
-            this._enemies.push(anEnemy);
+            // let anEnemy = new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), -100, -100);
+            // anEnemy.Speed = 0;
+            // this._enemies.push(anEnemy);
             for(let i=0; i<this._maxNoOfEnemies; i++)
             {
                 this._enemies.push(new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), Math.floor(util.Mathf.RandomRange(500, 1200)), Math.floor(util.Mathf.RandomRange(50, 400))));
@@ -98,11 +101,17 @@ module scenes
         
         public Update(): void 
         {
+            if(this._player.IsDead)
+            {
+                // LOSE SCENE HERE
+                config.Game.FINAL_SCORE = this._player.Score;
+                config.Game.SCENE = scenes.State.LOSE;
+            }
             if(!this._spawningBoss)
             {
                 if(!this._bossBattle)
                 {
-                    if(this._noOfEnemies == 0 && this._enemies.length == 1)
+                    if(this._noOfEnemies == 0 && this._enemies.length == 0)
                     {
                         this._bossBattle = true;
                         console.log('BOSS BATTLE');
@@ -132,6 +141,25 @@ module scenes
                         this._boss.Spawns.splice(this._boss.Spawns.indexOf(spawn), 1);
                     });
                     // boss fire balls
+
+                    if(this._boss.IsDead)
+                    {
+                        this._win = true;
+                        this._player.Win = true;
+                        console.log('win: ' + this._win + ', lose: ' + this._lose);
+                        this._player.Speed = 0;
+                        this._player.position = new objects.Vector2(this._player.x+5, this._player.y);
+                        if(this._player.x > config.Game.SCREEN_WIDTH + 100)
+                        {
+                            // WIN SCENE HERE
+                            config.Game.FINAL_SCORE = this._player.Score;
+                            if(this._player.Score > config.Game.HIGH_SCORE)
+                            {
+                                config.Game.HIGH_SCORE = this._player.Score;
+                            }
+                            config.Game.SCENE = scenes.State.WIN;
+                        }
+                    }
                 }
 
                 this._enemies.forEach(enemy => {

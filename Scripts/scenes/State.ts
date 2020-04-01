@@ -7,6 +7,8 @@ module scenes
         CHARACTER_SELECT,
         PLAY,
         END,
+        WIN,
+        LOSE,
         NUM_OF_SCENES
     }
 }

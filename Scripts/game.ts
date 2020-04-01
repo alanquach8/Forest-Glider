@@ -33,7 +33,13 @@ let Game = (function(){
         {id:"select_player_m", src:"./Assets/images/select_player_m.png"},
         {id:"select_player_f", src:"./Assets/images/select_player_f.png"},
         {id:"player_m", src:"./Assets/images/player_m.png"},
+        {id:"player_m_dead", src:"./Assets/images/player_m_dead.png"},
+        {id:"player_m_dead_big", src:"./Assets/images/player_m_dead_big.png"},
+        {id:"player_m_win", src:"./Assets/images/player_m_win.png"},
         {id:"player_f", src:"./Assets/images/player_f.png"},
+        {id:"player_f_dead", src:"./Assets/images/player_f_dead.png"},
+        {id:"player_f_dead_big", src:"./Assets/images/player_f_dead_big.png"},
+        {id:"player_f_win", src:"./Assets/images/player_f_win.png"},
         {id:"star_m", src:"./Assets/images/star_m.png"},
         {id:"star_f", src:"./Assets/images/star_f.png"},
         {id:"star_impact", src:"./Assets/images/star_impact.png"},
@@ -45,6 +51,11 @@ let Game = (function(){
         {id:"dragon_boss_idle2", src:"./Assets/images/dragon_boss_idle2.png"},
         {id:"dragon_boss_idle3", src:"./Assets/images/dragon_boss_idle3.png"},
         {id:"dragon_boss_spawn", src:"./Assets/images/dragon_boss_spawn.png"},
+        {id:"dragon_boss_dying", src:"./Assets/images/dragon_boss_dying.png"},
+
+        {id:"try_again_button", src:"./Assets/images/try_again_button.png"},
+        {id:"play_again_button", src:"./Assets/images/play_again_button.png"},
+        {id:"main_menu_button", src:"./Assets/images/main_menu_button.png"},
 
         // audio
         {id:"background_theme", src:"./Assets/audio/background_theme.ogg"},
@@ -130,6 +141,14 @@ let Game = (function(){
             case scenes.State.PLAY:
                 console.log("switch to Play Scene");
                 currentScene = new scenes.Play(); 
+                break;
+            case scenes.State.WIN:
+                console.log("switch to Win Scene");
+                currentScene = new scenes.Win(); 
+                break;
+            case scenes.State.LOSE:
+                console.log("switch to Lose Scene");
+                currentScene = new scenes.Lose(); 
                 break;
             case scenes.State.END:
                 console.log("switch to End Scene");

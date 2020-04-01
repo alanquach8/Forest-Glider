@@ -12,6 +12,8 @@ module config
         public static CURRENT_SCENE: objects.Scene;
         public static SELECTED_CHARACTER: string = "player_m";
         public static THROWING_STAR: string = "star_m";
+        public static HIGH_SCORE:number = 0;
+        public static FINAL_SCORE: number = 0;
 
 
 
@@ -20,7 +22,6 @@ module config
         public static CLOUD_NUM: number = 3;
         public static LIVES:number = 5;
         public static SCORE:number = 0;
-        public static HIGH_SCORE:number = 0;
         public static SCORE_BOARD: managers.ScoreBoard;
     }
 }

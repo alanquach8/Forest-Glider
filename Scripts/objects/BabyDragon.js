@@ -23,7 +23,7 @@ var objects;
             var _this = _super.call(this, imageString, x, y, isCentered) || this;
             _this._damage = 1;
             _this._points = 1;
-            _this._floatSpeed = 5;
+            _this._floatSpeed = 3;
             _this._spawnPosition = new objects.Vector2(x, y);
             _this._float = Math.floor(util.Mathf.RandomRange(10, 100));
             _this._float % 2 == 0 ? _this._up = true : _this._up = false;

@@ -28,9 +28,12 @@ var objects;
             _this._speed = 2;
             _this._reloadSpeed = 15;
             _this._reloadCounter = 0;
-            _this._bombCount = 50;
+            _this._bombCount = 3;
             _this._bombReloadSpeed = 50;
             _this._bombReloadCounter = 0;
+            _this._win = false;
+            _this._lose = false;
+            _this._isDead = false;
             // player_f
             window.addEventListener('keyup', function (e) {
                 switch (e.code) {
@@ -194,6 +197,20 @@ var objects;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(Player.prototype, "Win", {
+            set: function (value) {
+                this._win = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Player.prototype, "IsDead", {
+            get: function () {
+                return this._isDead;
+            },
+            enumerable: true,
+            configurable: true
+        });
         // PRIVATE METHODS
         Player.prototype._checkBounds = function () {
             if (this.x - this.halfWidth < 0) {
@@ -216,78 +233,98 @@ var objects;
         };
         Player.prototype.Update = function () {
             var _this = this;
-            if (this._up) {
-                this.position = new objects.Vector2(this.x, this.y - this._speed);
-                //this.y -= this._speed;
-            }
-            if (this._down) {
-                this.position = new objects.Vector2(this.x, this.y + this._speed);
-                //this.y += this._speed;
-            }
-            if (this._left) {
-                this.position = new objects.Vector2(this.x - this._speed, this.y);
-                //this.x -= this._speed;
-            }
-            if (this._right) {
-                this.position = new objects.Vector2(this.x + this._speed, this.y);
-                //this.x += this._speed;
-            }
-            if (this._isThrowing) {
-                if (this._reloadCounter == 0) {
-                    var star = new objects.ThrowingStar(this.x, this.y);
-                    this._throwingStars.push(star);
-                    config.Game.CURRENT_SCENE.addChild(star);
-                    createjs.Sound.play("throwing_star");
-                    this._reloadCounter = this._reloadSpeed;
+            if (!this._lose) {
+                if (this._life <= 0) {
+                    this._lose = true;
+                }
+                if (this._up) {
+                    this.position = new objects.Vector2(this.x, this.y - this._speed);
+                    //this.y -= this._speed;
+                }
+                if (this._down) {
+                    this.position = new objects.Vector2(this.x, this.y + this._speed);
+                    //this.y += this._speed;
+                }
+                if (this._left) {
+                    this.position = new objects.Vector2(this.x - this._speed, this.y);
+                    //this.x -= this._speed;
+                }
+                if (this._right) {
+                    this.position = new objects.Vector2(this.x + this._speed, this.y);
+                    //this.x += this._speed;
+                }
+                if (this._isThrowing) {
+                    if (this._reloadCounter == 0) {
+                        var star = new objects.ThrowingStar(this.x, this.y);
+                        this._throwingStars.push(star);
+                        config.Game.CURRENT_SCENE.addChild(star);
+                        createjs.Sound.play("throwing_star");
+                        this._reloadCounter = this._reloadSpeed;
+                    }
+                    else {
+                        this._reloadCounter--;
+                    }
                 }
                 else {
-                    this._reloadCounter--;
+                    if (this._reloadCounter != 0) {
+                        this._reloadCounter--;
+                    }
                 }
-            }
-            else {
-                if (this._reloadCounter != 0) {
-                    this._reloadCounter--;
-                }
-            }
-            this._throwingStars.forEach(function (star) {
-                star.Update();
-                if (star.IsOffScreen()) {
-                    _this._throwingStars.splice(_this._throwingStars.indexOf(star), 1);
-                    config.Game.CURRENT_SCENE.removeChild(star);
-                }
-            });
-            if (this._isThrowingBomb && this._bombCount > 0) {
-                if (this._bombReloadCounter == 0) {
-                    var bomb = new objects.Bomb(this.x, this.y);
-                    this._bombs.push(bomb);
-                    config.Game.CURRENT_SCENE.addChild(bomb);
-                    this._bombReloadCounter = this._bombReloadSpeed;
-                    this._bombCount--;
+                this._throwingStars.forEach(function (star) {
+                    star.Update();
+                    if (star.IsOffScreen()) {
+                        _this._throwingStars.splice(_this._throwingStars.indexOf(star), 1);
+                        config.Game.CURRENT_SCENE.removeChild(star);
+                    }
+                });
+                if (this._isThrowingBomb && this._bombCount > 0) {
+                    if (this._bombReloadCounter == 0) {
+                        var bomb = new objects.Bomb(this.x, this.y);
+                        this._bombs.push(bomb);
+                        config.Game.CURRENT_SCENE.addChild(bomb);
+                        this._bombReloadCounter = this._bombReloadSpeed;
+                        this._bombCount--;
+                    }
+                    else {
+                        this._bombReloadCounter--;
+                    }
                 }
                 else {
-                    this._bombReloadCounter--;
+                    if (this._bombReloadCounter != 0) {
+                        this._bombReloadCounter--;
+                    }
+                }
+                this._bombs.forEach(function (bomb) {
+                    bomb.Update();
+                });
+                if (this._invincible) {
+                    this._invincibleCounter--;
+                    if (this._invincibleCounter % 5 == 0) {
+                        this.alpha == 0.3 ? this.alpha = 0.8 : this.alpha = 0.3;
+                    }
+                    if (this._invincibleCounter <= 0) {
+                        this.isColliding = false;
+                        this._invincible = false;
+                        this.alpha = 1;
+                    }
+                }
+                if (!this._win) {
+                    this._checkBounds();
                 }
             }
-            else {
-                if (this._bombReloadCounter != 0) {
-                    this._bombReloadCounter--;
+            else { // player lost
+                if (config.Game.SELECTED_CHARACTER == "player_m") {
+                    this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("player_m_dead")).image;
+                }
+                else {
+                    this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("player_f_dead")).image;
+                }
+                this.rotation = 0;
+                this.alpha -= 0.005;
+                if (this.alpha <= 0) {
+                    this._isDead = true;
                 }
             }
-            this._bombs.forEach(function (bomb) {
-                bomb.Update();
-            });
-            if (this._invincible) {
-                this._invincibleCounter--;
-                if (this._invincibleCounter % 5 == 0) {
-                    this.alpha == 0.3 ? this.alpha = 0.8 : this.alpha = 0.3;
-                }
-                if (this._invincibleCounter <= 0) {
-                    this.isColliding = false;
-                    this._invincible = false;
-                    this.alpha = 1;
-                }
-            }
-            this._checkBounds();
         };
         Player.prototype.GotHit = function () {
             createjs.Sound.play("player_gets_hit");

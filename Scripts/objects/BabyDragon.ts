@@ -13,7 +13,7 @@ module objects
 
         private _spawnPosition: objects.Vector2;
         private _float: number;
-        private _floatSpeed: number = 5;
+        private _floatSpeed: number = 3;
         private _up: boolean;
 
         // PUBLIC PROPERTIES
