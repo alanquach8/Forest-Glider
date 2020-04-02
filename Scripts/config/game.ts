@@ -14,14 +14,5 @@ module config
         public static THROWING_STAR: string = "star_m";
         public static HIGH_SCORE:number = 0;
         public static FINAL_SCORE: number = 0;
-
-
-
-
-        // CURRENTLY NOT USING:
-        public static CLOUD_NUM: number = 3;
-        public static LIVES:number = 5;
-        public static SCORE:number = 0;
-        public static SCORE_BOARD: managers.ScoreBoard;
     }
 }

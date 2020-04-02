@@ -13,19 +13,6 @@ let Game = (function(){
 
     let assetManifest = 
     [
-        {id:"button", src:"./Assets/images/button.png"},
-        {id:"placeholder", src:"./Assets/images/placeholder.png"},
-        {id:"startButton", src:"./Assets/images/startButton.png"},
-        {id:"nextButton", src:"./Assets/images/nextButton.png"},
-        {id:"restartButton", src:"./Assets/images/restartButton.png"},
-        {id:"ocean", src:"./Assets/images/ocean.gif"},
-        {id:"plane", src:"./Assets/images/plane.png"},
-        {id:"island", src:"./Assets/images/island.png"},
-        {id:"cloud", src:"./Assets/images/cloud.png"},
-        {id:"engine", src:"./Assets/audio/engine.ogg"},
-        {id:"yay", src:"./Assets/audio/yay.ogg"},
-        {id:"thunder", src:"./Assets/audio/thunder.ogg"},
-
         // images
         {id:"back_button", src:"./Assets/images/backButton.png"},
         {id:"next_button", src:"./Assets/images/nextButton.png"},
@@ -163,10 +150,6 @@ let Game = (function(){
             case scenes.State.LOSE:
                 console.log("switch to Lose Scene");
                 currentScene = new scenes.Lose(); 
-                break;
-            case scenes.State.END:
-                console.log("switch to End Scene");
-                currentScene = new scenes.End(); 
                 break;
         }
 

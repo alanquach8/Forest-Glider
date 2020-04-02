@@ -11,10 +11,6 @@ var config;
         Game.THROWING_STAR = "star_m";
         Game.HIGH_SCORE = 0;
         Game.FINAL_SCORE = 0;
-        // CURRENTLY NOT USING:
-        Game.CLOUD_NUM = 3;
-        Game.LIVES = 5;
-        Game.SCORE = 0;
         return Game;
     }());
     config.Game = Game;

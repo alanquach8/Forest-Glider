@@ -28,7 +28,7 @@ var scenes;
         // PRIVATE METHODS
         // PUBLIC METHODS
         Lose.prototype.Start = function () {
-            this._loseLabel = new objects.Label("YOU LOSE", "70px", "Consolas", this._labelColor, config.Game.SCREEN_WIDTH / 2, 50, true);
+            this._loseLabel = new objects.Label("GAME OVER", "70px", "Consolas", this._labelColor, config.Game.SCREEN_WIDTH / 2, 50, true);
             this._tryAgain = new objects.Button(config.Game.ASSETS.getResult("try_again_button"), config.Game.SCREEN_WIDTH / 2, 400, true);
             this._mainMenu = new objects.Button(config.Game.ASSETS.getResult("main_menu_button"), config.Game.SCREEN_WIDTH / 2, 450, true);
             if (config.Game.SELECTED_CHARACTER == "player_m") {
