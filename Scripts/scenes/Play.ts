@@ -27,6 +27,8 @@ module scenes
         private _warningLabelPlaced?: boolean = false;
         private _warningLabelFlash?: boolean = false;
 
+        private _fireballs?: Array<objects.Fireball>;
+
         private _win: boolean = false;
         private _lose: boolean = false;
         // private _ocean?: objects.Ocean;
@@ -62,6 +64,7 @@ module scenes
 
             this._forest = new objects.Forest();
             this._player = new objects.Player();
+            config.Game.PLAYER = this._player;
 
             this._labelArea = this.DrawRectangle(0, 0, config.Game.SCREEN_WIDTH, 50, "#000000");
             this._labelArea.alpha = 0.5;
@@ -76,11 +79,12 @@ module scenes
             for(let i=0; i<this._maxNoOfEnemies; i++)
             {
                 let dragon = Math.floor(util.Mathf.RandomRange(1,2)) == 1 ? "baby_dragon_green" : "baby_dragon_red"
-                this._enemies.push(new objects.BabyDragon(config.Game.ASSETS.getResult(dragon), Math.floor(util.Mathf.RandomRange(500, 1200)), Math.floor(util.Mathf.RandomRange(50, 400))));
+                this._enemies.push(new objects.BabyDragon(config.Game.ASSETS.getResult(dragon), Math.floor(util.Mathf.RandomRange(500, 800)), Math.floor(util.Mathf.RandomRange(50, 400))));
                 this._noOfEnemies--;
             }
 
             this._explosions = new Array<objects.Explosion>();
+            this._fireballs = new Array<objects.Fireball>();
             // this._ocean = new objects.Ocean();
             // this._plane = new objects.Plane();
             // this._island = new objects.Island();
@@ -107,6 +111,7 @@ module scenes
                 // LOSE SCENE HERE
                 config.Game.FINAL_SCORE = this._player.Score;
                 config.Game.SCENE = scenes.State.LOSE;
+                this._backgroundTheme.stop();
             }
             if(!this._spawningBoss)
             {
@@ -142,6 +147,18 @@ module scenes
                         this._boss.Spawns.splice(this._boss.Spawns.indexOf(spawn), 1);
                     });
                     // boss fire balls
+                    this._boss.Fireballs.forEach(fireball => {
+                        fireball.Update();
+                        if(!this._player.Invincible)
+                        {
+                            managers.Collision.AABBCheck(this._player, fireball);
+                        }
+                        if(fireball.IsOffScreen())
+                        {
+                            this._boss.Fireballs.splice(this._boss.Fireballs.indexOf(fireball), 1);
+                            this.removeChild(fireball);
+                        }
+                    });
 
                     if(this._boss.IsDead)
                     {
@@ -159,6 +176,7 @@ module scenes
                                 config.Game.HIGH_SCORE = this._player.Score;
                             }
                             config.Game.SCENE = scenes.State.WIN;
+                            this._backgroundTheme.stop();
                         }
                     }
                 }

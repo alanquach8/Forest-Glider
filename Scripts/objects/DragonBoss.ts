@@ -15,11 +15,21 @@ module objects
         private _attackAt: number = 600;
 
         private _idle: boolean = true;
+        private _attackCode: number;
+
         private _spawns: Array<objects.Enemy>;
         private _spawnCount: number = 5;
         private _spawnCounter: number = 0; // counts from 0 to spawnAt
         private _spawnAt: number = 60;
         private _spawned: number = 0; // counts from 0 to spawnCount
+
+        private _prefireCount: number = 100;
+        private _prefireCounter: number = 0;
+        private _fireballCount: number = 3;
+        private _fireballCounter: number = 0;
+        private _fireballDelay: number = 60;
+        private _fireballDelayCounter: number = 0;
+        private _fireballs: Array<objects.Fireball>;
 
         // PUBLIC PROPERTIES
         public set StartBattle(value:boolean)
@@ -29,6 +39,10 @@ module objects
         public get Spawns(): Array<objects.Enemy>
         {
             return this._spawns;
+        }
+        public get Fireballs(): Array<objects.Fireball>
+        {
+            return this._fireballs;
         }
 
         // CONSTRUCTOR
@@ -46,10 +60,11 @@ module objects
         public Start(): void 
         {
             this._speed = 0;
-            this._life = 10;
+            this._life = 20;
             this._isDead = false;
             this._points = 20;
             this._spawns = Array<objects.Enemy>();
+            this._fireballs = Array<objects.Fireball>();
         }
         public Update(): void 
         {
@@ -83,39 +98,59 @@ module objects
                     {
                         this._idle = false;
                         this._attackCounter = 0;
+                        this._attackCode = Math.floor(util.Mathf.RandomRange(1,2));
                     }
                 } else {
                     // ATTACK
-                    this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("dragon_boss_spawn")).image;
-                    if(this._spawned != this._spawnCount)
+                    if(this._attackCode == 3)
                     {
-                        this._spawnCounter++;
-                        if(this._spawnCounter == this._spawnAt)
+                        this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("dragon_boss_spawn")).image;
+                        if(this._spawned != this._spawnCount)
                         {
-                            let dragon = Math.floor(util.Mathf.RandomRange(1,2)) == 1 ? "baby_dragon_green" : "baby_dragon_red";
-                            let spawn = new objects.BabyDragon(config.Game.ASSETS.getResult(dragon), this.x, this.y);
-                            spawn.Speed = 1;
-                            this.Spawns.push(spawn);
-                            this._spawned++;
+                            this._spawnCounter++;
+                            if(this._spawnCounter == this._spawnAt)
+                            {
+                                let dragon = Math.floor(util.Mathf.RandomRange(1,2)) == 1 ? "baby_dragon_green" : "baby_dragon_red";
+                                let spawn = new objects.BabyDragon(config.Game.ASSETS.getResult(dragon), this.x, this.y);
+                                spawn.Speed = 1;
+                                this.Spawns.push(spawn);
+                                this._spawned++;
+                                this._spawnCounter = 0;
+                            }
+                        } else {
+                            this._idle = true;
+                            this._spawned = 0;
                             this._spawnCounter = 0;
                         }
                     } else {
-                        this._idle = true;
-                        this._spawned = 0;
-                        this._spawnCounter = 0;
+                        if(this._prefireCounter != this._prefireCount)
+                        {
+                            this._prefireCounter++;
+                            this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("dragon_boss_prefire")).image;
+                        } else {
+                            this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("dragon_boss_fire")).image;
+                            if(this._fireballCounter != this._fireballCount)
+                            {
+                                if(this._fireballDelayCounter != this._fireballDelay)
+                                {
+                                    this._fireballDelayCounter++;
+                                } else {
+                                    this._fireballCounter++;
+                                    this._fireballDelayCounter = 0;
+                                    // spit fire
+                                    console.log('spit fire');
+                                    let fireball = new objects.Fireball(this.x-70, this.y-10, config.Game.PLAYER.x, config.Game.PLAYER.y);
+                                    this._fireballs.push(fireball);
+                                    config.Game.CURRENT_SCENE.addChild(fireball);
+                                }
+                            } else {
+                                this._idle = true;
+                                this._fireballCounter = 0;
+                                this._fireballDelayCounter = 0;
+                                this._prefireCounter = 0;
+                            }
+                        }
                     }
-                    // this._attackCounter = 0;
-                    // let attack = Math.floor(util.Mathf.RandomRange(1,10));
-                    // console.log('attack: ' + attack)
-                    // if(attack < 11)
-                    // {
-                    //     for(let i=0; i<this._spawnCount; i++)
-                    //     {
-                    //         let spawn = new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), this.x, this.y);
-                    //         spawn.Speed = 0;
-                    //         this._spawns.push(spawn);
-                    //     }
-                    // }
 
                 }
             } else { // isDying = true

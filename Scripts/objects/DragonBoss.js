@@ -31,6 +31,12 @@ var objects;
             _this._spawnCounter = 0; // counts from 0 to spawnAt
             _this._spawnAt = 60;
             _this._spawned = 0; // counts from 0 to spawnCount
+            _this._prefireCount = 100;
+            _this._prefireCounter = 0;
+            _this._fireballCount = 3;
+            _this._fireballCounter = 0;
+            _this._fireballDelay = 60;
+            _this._fireballDelayCounter = 0;
             _this.Start();
             return _this;
         }
@@ -49,16 +55,24 @@ var objects;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(DragonBoss.prototype, "Fireballs", {
+            get: function () {
+                return this._fireballs;
+            },
+            enumerable: true,
+            configurable: true
+        });
         // PRIVATE METHODS
         DragonBoss.prototype._checkBounds = function () {
         };
         // PUBLIC METHODS
         DragonBoss.prototype.Start = function () {
             this._speed = 0;
-            this._life = 10;
+            this._life = 20;
             this._isDead = false;
             this._points = 20;
             this._spawns = Array();
+            this._fireballs = Array();
         };
         DragonBoss.prototype.Update = function () {
             if (!this._isDying) {
@@ -83,39 +97,59 @@ var objects;
                     if (this._attackCounter == this._attackAt) {
                         this._idle = false;
                         this._attackCounter = 0;
+                        this._attackCode = Math.floor(util.Mathf.RandomRange(1, 2));
                     }
                 }
                 else {
                     // ATTACK
-                    this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("dragon_boss_spawn")).image;
-                    if (this._spawned != this._spawnCount) {
-                        this._spawnCounter++;
-                        if (this._spawnCounter == this._spawnAt) {
-                            var dragon = Math.floor(util.Mathf.RandomRange(1, 2)) == 1 ? "baby_dragon_green" : "baby_dragon_red";
-                            var spawn = new objects.BabyDragon(config.Game.ASSETS.getResult(dragon), this.x, this.y);
-                            spawn.Speed = 1;
-                            this.Spawns.push(spawn);
-                            this._spawned++;
+                    if (this._attackCode == 3) {
+                        this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("dragon_boss_spawn")).image;
+                        if (this._spawned != this._spawnCount) {
+                            this._spawnCounter++;
+                            if (this._spawnCounter == this._spawnAt) {
+                                var dragon = Math.floor(util.Mathf.RandomRange(1, 2)) == 1 ? "baby_dragon_green" : "baby_dragon_red";
+                                var spawn = new objects.BabyDragon(config.Game.ASSETS.getResult(dragon), this.x, this.y);
+                                spawn.Speed = 1;
+                                this.Spawns.push(spawn);
+                                this._spawned++;
+                                this._spawnCounter = 0;
+                            }
+                        }
+                        else {
+                            this._idle = true;
+                            this._spawned = 0;
                             this._spawnCounter = 0;
                         }
                     }
                     else {
-                        this._idle = true;
-                        this._spawned = 0;
-                        this._spawnCounter = 0;
+                        if (this._prefireCounter != this._prefireCount) {
+                            this._prefireCounter++;
+                            this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("dragon_boss_prefire")).image;
+                        }
+                        else {
+                            this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("dragon_boss_fire")).image;
+                            if (this._fireballCounter != this._fireballCount) {
+                                if (this._fireballDelayCounter != this._fireballDelay) {
+                                    this._fireballDelayCounter++;
+                                }
+                                else {
+                                    this._fireballCounter++;
+                                    this._fireballDelayCounter = 0;
+                                    // spit fire
+                                    console.log('spit fire');
+                                    var fireball = new objects.Fireball(this.x - 70, this.y - 10, config.Game.PLAYER.x, config.Game.PLAYER.y);
+                                    this._fireballs.push(fireball);
+                                    config.Game.CURRENT_SCENE.addChild(fireball);
+                                }
+                            }
+                            else {
+                                this._idle = true;
+                                this._fireballCounter = 0;
+                                this._fireballDelayCounter = 0;
+                                this._prefireCounter = 0;
+                            }
+                        }
                     }
-                    // this._attackCounter = 0;
-                    // let attack = Math.floor(util.Mathf.RandomRange(1,10));
-                    // console.log('attack: ' + attack)
-                    // if(attack < 11)
-                    // {
-                    //     for(let i=0; i<this._spawnCount; i++)
-                    //     {
-                    //         let spawn = new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), this.x, this.y);
-                    //         spawn.Speed = 0;
-                    //         this._spawns.push(spawn);
-                    //     }
-                    // }
                 }
             }
             else { // isDying = true
