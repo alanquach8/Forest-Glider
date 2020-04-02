@@ -6,6 +6,7 @@ module scenes
         START,
         INSTRUCTIONS1,
         INSTRUCTIONS2,
+        INSTRUCTIONS3,
         CHARACTER_SELECT,
         PLAY,
         WIN,

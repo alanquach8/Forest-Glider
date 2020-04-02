@@ -55,6 +55,7 @@ let Game = (function(){
 
         {id:"instructions1", src:"./Assets/images/instructions1.png"},
         {id:"instructions2", src:"./Assets/images/instructions2.png"},
+        {id:"instructions3", src:"./Assets/images/instructions3.png"},
 
         // audio
         {id:"background_theme", src:"./Assets/audio/background_theme.ogg"},
@@ -140,6 +141,10 @@ let Game = (function(){
             case scenes.State.INSTRUCTIONS2:
                 console.log("switch to Instructions2 Scene");
                 currentScene = new scenes.Instructions2(); 
+                break;
+            case scenes.State.INSTRUCTIONS3:
+                console.log("switch to Instructions3 Scene");
+                currentScene = new scenes.Instructions3(); 
                 break;
             case scenes.State.CHARACTER_SELECT:
                 console.log("switch to Character Select Scene");
