@@ -28,6 +28,7 @@ let Game = (function(){
 
         // images
         {id:"back_button", src:"./Assets/images/backButton.png"},
+        {id:"next_button", src:"./Assets/images/nextButton.png"},
         {id:"play_button", src:"./Assets/images/playButton.png"},
         {id:"forest", src:"./Assets/images/forest.png"},
         {id:"select_player_m", src:"./Assets/images/select_player_m.png"},
@@ -56,6 +57,11 @@ let Game = (function(){
         {id:"try_again_button", src:"./Assets/images/try_again_button.png"},
         {id:"play_again_button", src:"./Assets/images/play_again_button.png"},
         {id:"main_menu_button", src:"./Assets/images/main_menu_button.png"},
+        {id:"instructions_button", src:"./Assets/images/instructionsButton.png"},
+        {id:"cheat_button", src:"./Assets/images/cheatButton.png"},
+
+        {id:"instructions1", src:"./Assets/images/instructions1.png"},
+        {id:"instructions2", src:"./Assets/images/instructions2.png"},
 
         // audio
         {id:"background_theme", src:"./Assets/audio/background_theme.ogg"},
@@ -133,6 +139,14 @@ let Game = (function(){
             case scenes.State.START:
                 console.log("switch to Start Scene");
                 currentScene = new scenes.Start(); 
+                break;
+            case scenes.State.INSTRUCTIONS1:
+                console.log("switch to Instructions1 Scene");
+                currentScene = new scenes.Instructions1(); 
+                break;
+            case scenes.State.INSTRUCTIONS2:
+                console.log("switch to Instructions2 Scene");
+                currentScene = new scenes.Instructions2(); 
                 break;
             case scenes.State.CHARACTER_SELECT:
                 console.log("switch to Character Select Scene");

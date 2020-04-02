@@ -91,7 +91,8 @@ var objects;
                     if (this._spawned != this._spawnCount) {
                         this._spawnCounter++;
                         if (this._spawnCounter == this._spawnAt) {
-                            var spawn = new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), this.x, this.y);
+                            var dragon = Math.floor(util.Mathf.RandomRange(1, 2)) == 1 ? "baby_dragon_green" : "baby_dragon_red";
+                            var spawn = new objects.BabyDragon(config.Game.ASSETS.getResult(dragon), this.x, this.y);
                             spawn.Speed = 1;
                             this.Spawns.push(spawn);
                             this._spawned++;

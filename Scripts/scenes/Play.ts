@@ -75,7 +75,8 @@ module scenes
             // this._enemies.push(anEnemy);
             for(let i=0; i<this._maxNoOfEnemies; i++)
             {
-                this._enemies.push(new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), Math.floor(util.Mathf.RandomRange(500, 1200)), Math.floor(util.Mathf.RandomRange(50, 400))));
+                let dragon = Math.floor(util.Mathf.RandomRange(1,2)) == 1 ? "baby_dragon_green" : "baby_dragon_red"
+                this._enemies.push(new objects.BabyDragon(config.Game.ASSETS.getResult(dragon), Math.floor(util.Mathf.RandomRange(500, 1200)), Math.floor(util.Mathf.RandomRange(50, 400))));
                 this._noOfEnemies--;
             }
 

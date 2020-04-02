@@ -27,7 +27,7 @@ var scenes;
         // PUBLIC METHODS
         CharacterSelect.prototype.Start = function () {
             var _this = this;
-            this._selectLabel = new objects.Label("Select Character", "60px", "Consolas", "#FFFFFF", 0, 0, false);
+            this._selectLabel = new objects.Label("Select Character", "60px", "Consolas", "#FFFF00", 0, 0, false);
             this._background = this.DrawRectangle(0, 0, config.Game.SCREEN_WIDTH, config.Game.SCREEN_HEIGHT, "black");
             this._charMBorder = this.DrawRectangle(45, 95, 250, 250, "#00FF33");
             this._charFBorder = this.DrawRectangle(345, 95, 250, 250, "#000000");
@@ -35,8 +35,8 @@ var scenes;
             this._characterF = new objects.Button(config.Game.ASSETS.getResult("select_player_f"), 350, 100);
             config.Game.SELECTED_CHARACTER = "player_m";
             config.Game.THROWING_STAR = "star_m";
-            this._backButton = new objects.Button(config.Game.ASSETS.getResult("back_button"), 100, 400);
-            this._playButton = new objects.Button(config.Game.ASSETS.getResult("play_button"), 300, 400);
+            this._backButton = new objects.Button(config.Game.ASSETS.getResult("back_button"), 100, 400, true);
+            this._playButton = new objects.Button(config.Game.ASSETS.getResult("play_button"), config.Game.SCREEN_WIDTH / 2, 400, true);
             this._characterM.on("click", function () {
                 config.Game.SELECTED_CHARACTER = "player_m";
                 config.Game.THROWING_STAR = "star_m";

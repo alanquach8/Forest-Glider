@@ -27,25 +27,37 @@ var scenes;
         // PUBLIC METHODS
         Start.prototype.Start = function () {
             //instantiate a new Text object
-            this._welcomeLabel = new objects.Label("Forest Glider", "80px", "Consolas", "#FFFF00", 320, 180, true);
+            this._welcomeLabel = new objects.Label("Forest Glider", "80px", "Consolas", "#FFFF00", config.Game.SCREEN_WIDTH / 2, 50, true);
             // buttons
-            this._startButton = new objects.Button(config.Game.ASSETS.getResult("startButton"), 320, 430, true);
-            this._ocean = new objects.Ocean();
+            this._playButton = new objects.Button(config.Game.ASSETS.getResult("play_button"), config.Game.SCREEN_WIDTH / 2, 430, true);
+            this._instructionsButton = new objects.Button(config.Game.ASSETS.getResult("instructions_button"), 100, 430, true);
+            this._cheatButton = new objects.Button(config.Game.ASSETS.getResult("cheat_button"), config.Game.SCREEN_WIDTH - 100, 430, true);
             this.Main();
         };
         Start.prototype.Update = function () {
-            this._ocean.Update();
         };
         Start.prototype.Main = function () {
-            this.addChild(this._ocean);
+            this.addChild(this.DrawRectangle(0, 0, config.Game.SCREEN_WIDTH, config.Game.SCREEN_HEIGHT, "black"));
             this.addChild(this._welcomeLabel);
-            this.addChild(this._startButton);
-            this._startButton.on("click", function () {
+            this.addChild(this._playButton);
+            this._playButton.on("click", function () {
                 config.Game.SCENE = scenes.State.CHARACTER_SELECT;
             });
+            this.addChild(this._instructionsButton);
+            this._instructionsButton.on("click", function () {
+                config.Game.SCENE = scenes.State.INSTRUCTIONS1;
+            });
+            this.addChild(this._cheatButton);
         };
         Start.prototype.Clean = function () {
             this.removeAllChildren();
+        };
+        Start.prototype.DrawRectangle = function (x, y, w, h, color) {
+            var shape = new createjs.Shape();
+            shape.graphics.beginFill(color);
+            shape.graphics.drawRect(x, y, w, h);
+            shape.graphics.endFill();
+            return shape;
         };
         return Start;
     }(objects.Scene));
