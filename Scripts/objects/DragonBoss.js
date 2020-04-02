@@ -68,7 +68,7 @@ var objects;
         // PUBLIC METHODS
         DragonBoss.prototype.Start = function () {
             this._speed = 0;
-            this._life = 20;
+            this._life = 100;
             this._isDead = false;
             this._points = 20;
             this._spawns = Array();

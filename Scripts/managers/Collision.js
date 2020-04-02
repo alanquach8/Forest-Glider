@@ -31,6 +31,11 @@ var managers;
                         }
                         object2.isColliding = false;
                     }
+                    if (object1 instanceof objects.Player && object2 instanceof objects.Item) {
+                        object2.Reward();
+                        object2.Obtained = true;
+                        console.log('PLAYER ITEM COLLISION');
+                    }
                     if (object1 instanceof objects.ThrowingStar && object2 instanceof objects.Enemy) {
                         object2.Life -= object1.Damage;
                     }

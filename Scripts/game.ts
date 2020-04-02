@@ -44,11 +44,14 @@ let Game = (function(){
         {id:"dragon_boss_fire", src:"./Assets/images/dragon_boss_fire.png"},
         {id:"fireball", src:"./Assets/images/fireball.png"},
 
+        {id:"life_item", src:"./Assets/images/life_item.png"},
+        {id:"bomb_item", src:"./Assets/images/bomb_item.png"},
+        {id:"star_item", src:"./Assets/images/star_item.png"},
+
         {id:"try_again_button", src:"./Assets/images/try_again_button.png"},
         {id:"play_again_button", src:"./Assets/images/play_again_button.png"},
         {id:"main_menu_button", src:"./Assets/images/main_menu_button.png"},
         {id:"instructions_button", src:"./Assets/images/instructionsButton.png"},
-        {id:"cheat_button", src:"./Assets/images/cheatButton.png"},
 
         {id:"instructions1", src:"./Assets/images/instructions1.png"},
         {id:"instructions2", src:"./Assets/images/instructions2.png"},

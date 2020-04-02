@@ -103,6 +103,12 @@ module objects
         public get IsDead():boolean {
             return this._isDead;
         }
+        public get ReloadSpeed():number {
+            return this._reloadSpeed;
+        }
+        public set ReloadSpeed(value:number) {
+            this._reloadSpeed = value;
+        }
         
 
         // CONSTRUCTOR

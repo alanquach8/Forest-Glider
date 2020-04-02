@@ -29,6 +29,8 @@ module scenes
 
         private _fireballs?: Array<objects.Fireball>;
 
+        private _items?: Array<objects.Item>
+
         private _win: boolean = false;
         private _lose: boolean = false;
         // private _ocean?: objects.Ocean;
@@ -85,6 +87,11 @@ module scenes
 
             this._explosions = new Array<objects.Explosion>();
             this._fireballs = new Array<objects.Fireball>();
+            this._items = new Array<objects.Item>();
+            for(let i = 0; i < 5; i++)
+            {
+                this._items.push(new objects.Item(Math.floor(util.Mathf.RandomRange(3,3)), Math.floor(util.Mathf.RandomRange(300,1000)), Math.floor(util.Mathf.RandomRange(50,450))));
+            }
             // this._ocean = new objects.Ocean();
             // this._plane = new objects.Plane();
             // this._island = new objects.Island();
@@ -180,6 +187,17 @@ module scenes
                         }
                     }
                 }
+
+                this._items.forEach(item => {
+                    item.Update();
+                    managers.Collision.AABBCheck(this._player, item);
+                    if(item.Obtained)
+                    {
+                        this._items.splice(this._items.indexOf(item), 1);
+                        this.removeChild(item);
+                        console.log('items:'+ this._items.length);
+                    }
+                });
 
                 this._enemies.forEach(enemy => {
                     if(!this._player.Invincible)
@@ -294,6 +312,10 @@ module scenes
 
             this._enemies.forEach(enemy => {
                 this.addChild(enemy);
+            });
+
+            this._items.forEach(item => {
+                this.addChild(item);
             });
 
             this.addChild(this._labelArea);

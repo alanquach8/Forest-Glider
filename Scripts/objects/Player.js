@@ -211,6 +211,16 @@ var objects;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(Player.prototype, "ReloadSpeed", {
+            get: function () {
+                return this._reloadSpeed;
+            },
+            set: function (value) {
+                this._reloadSpeed = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         // PRIVATE METHODS
         Player.prototype._checkBounds = function () {
             if (this.x - this.halfWidth < 0) {

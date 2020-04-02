@@ -65,6 +65,10 @@ var scenes;
             }
             this._explosions = new Array();
             this._fireballs = new Array();
+            this._items = new Array();
+            for (var i = 0; i < 5; i++) {
+                this._items.push(new objects.Item(Math.floor(util.Mathf.RandomRange(3, 3)), Math.floor(util.Mathf.RandomRange(300, 1000)), Math.floor(util.Mathf.RandomRange(50, 450))));
+            }
             // this._ocean = new objects.Ocean();
             // this._plane = new objects.Plane();
             // this._island = new objects.Island();
@@ -143,6 +147,15 @@ var scenes;
                         }
                     }
                 }
+                this._items.forEach(function (item) {
+                    item.Update();
+                    managers.Collision.AABBCheck(_this._player, item);
+                    if (item.Obtained) {
+                        _this._items.splice(_this._items.indexOf(item), 1);
+                        _this.removeChild(item);
+                        console.log('items:' + _this._items.length);
+                    }
+                });
                 this._enemies.forEach(function (enemy) {
                     if (!_this._player.Invincible) {
                         managers.Collision.AABBCheck(_this._player, enemy);
@@ -237,6 +250,9 @@ var scenes;
             this.addChild(this._player);
             this._enemies.forEach(function (enemy) {
                 _this.addChild(enemy);
+            });
+            this._items.forEach(function (item) {
+                _this.addChild(item);
             });
             this.addChild(this._labelArea);
             this.addChild(this._lifeLabel);

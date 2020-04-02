@@ -6,7 +6,6 @@ module scenes
         private _welcomeLabel: objects.Label;
         private _playButton: objects.Button;
         private _instructionsButton: objects.Button;
-        private _cheatButton: objects.Button;
 
         // PUBLIC PROPERTIES
 
@@ -26,10 +25,8 @@ module scenes
              //instantiate a new Text object
             this._welcomeLabel = new objects.Label("Forest Glider", "80px", "Consolas", "#FFFF00", config.Game.SCREEN_WIDTH/2, 50, true);
             // buttons
-            this._playButton = new objects.Button(config.Game.ASSETS.getResult("play_button"), config.Game.SCREEN_WIDTH/2, 430, true);
-            this._instructionsButton = new objects.Button(config.Game.ASSETS.getResult("instructions_button"), 100, 430, true);
-            this._cheatButton = new objects.Button(config.Game.ASSETS.getResult("cheat_button"), config.Game.SCREEN_WIDTH-100, 430, true);
-
+            this._playButton = new objects.Button(config.Game.ASSETS.getResult("play_button"), 400, 430, true);
+            this._instructionsButton = new objects.Button(config.Game.ASSETS.getResult("instructions_button"), 200, 430, true);
             this.Main();
         }
         
@@ -54,8 +51,6 @@ module scenes
             this._instructionsButton.on("click", ()=>{
                 config.Game.SCENE = scenes.State.INSTRUCTIONS1;
             });
-            
-            this.addChild(this._cheatButton);
 
         }
 
