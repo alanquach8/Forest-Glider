@@ -43,7 +43,7 @@ module managers
                     {
                         object2.Reward();
                         object2.Obtained = true;
-                        console.log('PLAYER ITEM COLLISION');
+                        createjs.Sound.play("reward");
                     }
                     if(object1 instanceof objects.ThrowingStar && object2 instanceof objects.Enemy)
                     {

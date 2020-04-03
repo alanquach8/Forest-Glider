@@ -34,7 +34,7 @@ var managers;
                     if (object1 instanceof objects.Player && object2 instanceof objects.Item) {
                         object2.Reward();
                         object2.Obtained = true;
-                        console.log('PLAYER ITEM COLLISION');
+                        createjs.Sound.play("reward");
                     }
                     if (object1 instanceof objects.ThrowingStar && object2 instanceof objects.Enemy) {
                         object2.Life -= object1.Damage;

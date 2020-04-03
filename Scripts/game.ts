@@ -63,7 +63,8 @@ let Game = (function(){
         {id:"throwing_star", src:"./Assets/audio/throwing_star.ogg"},
         {id:"throwing_star_impact", src:"./Assets/audio/throwing_star_impact.ogg"},
         {id:"explosion", src:"./Assets/audio/explosion.ogg"},
-        {id:"player_gets_hit", src:"./Assets/audio/player_gets_hit.wav"}
+        {id:"player_gets_hit", src:"./Assets/audio/player_gets_hit.wav"},
+        {id:"reward", src:"./Assets/audio/reward.ogg"}
     ];
 
 
