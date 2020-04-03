@@ -29,6 +29,7 @@ var scenes;
         // PRIVATE METHODS
         // PUBLIC METHODS
         Dodge.prototype.Start = function () {
+            var _this = this;
             config.Game.CURRENT_SCENE = this;
             this._background = new createjs.Bitmap(config.Game.ASSETS.getResult("minigame_background"));
             this._background.alpha = 0.9;
@@ -42,8 +43,12 @@ var scenes;
             this._enemies = new Array();
             this._enemiesToSpawn = 2;
             this._enemySpeed = 1;
+            this._backgroundTheme = createjs.Sound.play("background_theme");
+            this._backgroundTheme.loop = -1; // loop forever
+            this._backgroundTheme.volume = 0.05; // 10% volume
             this._mainMenuButton = new objects.Button(config.Game.ASSETS.getResult("main_menu_button"), config.Game.SCREEN_WIDTH / 2, 400, true);
             this._mainMenuButton.on("click", function () {
+                _this._backgroundTheme.stop();
                 config.Game.SCENE = scenes.State.START;
             });
             this.Main();

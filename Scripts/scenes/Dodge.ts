@@ -16,6 +16,8 @@ module scenes
         private _renderLoseScreen:boolean = false;
         private _loseScreen: createjs.Shape;
         private _mainMenuButton: objects.Button;
+
+        private _backgroundTheme?: createjs.AbstractSoundInstance;
         // PUBLIC PROPERTIES
         // CONSTRUCTOR
         constructor()
@@ -42,8 +44,13 @@ module scenes
             this._enemiesToSpawn = 2;
             this._enemySpeed = 1;
 
+            this._backgroundTheme = createjs.Sound.play("background_theme");
+            this._backgroundTheme.loop = -1; // loop forever
+            this._backgroundTheme.volume = 0.05; // 10% volume
+
             this._mainMenuButton = new objects.Button(config.Game.ASSETS.getResult("main_menu_button"), config.Game.SCREEN_WIDTH/2, 400, true);
             this._mainMenuButton.on("click", ()=>{
+                this._backgroundTheme.stop();
                 config.Game.SCENE = scenes.State.START;
             });
 

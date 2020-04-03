@@ -73,7 +73,7 @@ var objects;
             this._impact = true;
         };
         ThrowingStar.prototype.IsOffScreen = function () {
-            return this.x > config.Game.SCREEN_WIDTH;
+            return this.x > config.Game.SCREEN_WIDTH + this.width;
         };
         return ThrowingStar;
     }(objects.GameObject));

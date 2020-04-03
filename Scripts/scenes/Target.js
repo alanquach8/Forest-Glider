@@ -22,12 +22,14 @@ var scenes;
             var _this = _super.call(this) || this;
             _this._score = 0;
             _this._lose = false;
+            _this._renderLoseScreen = false;
             _this.Start();
             return _this;
         }
         // PRIVATE METHODS
         // PUBLIC METHODS
         Target.prototype.Start = function () {
+            var _this = this;
             config.Game.CURRENT_SCENE = this;
             this._background = new createjs.Bitmap(config.Game.ASSETS.getResult("minigame_background"));
             this._background.alpha = 0.9;
@@ -39,16 +41,76 @@ var scenes;
             this._enemies = new Array();
             this._enemiesToSpawn = 1;
             this._enemySpeed = 1;
+            this._backgroundTheme = createjs.Sound.play("background_theme");
+            this._backgroundTheme.loop = -1; // loop forever
+            this._backgroundTheme.volume = 0.05; // 10% volume
+            this._mainMenuButton = new objects.Button(config.Game.ASSETS.getResult("main_menu_button"), config.Game.SCREEN_WIDTH / 2, 400, true);
+            this._mainMenuButton.on("click", function () {
+                _this._backgroundTheme.stop();
+                config.Game.SCENE = scenes.State.START;
+            });
             this.Main();
         };
         Target.prototype.Update = function () {
+            var _this = this;
             if (!this._lose) {
                 this.UpdateScore();
                 this._player.Update();
-                // enemies get faster 
+                if (this._enemies.length == 0) {
+                    for (var i = 0; i < this._enemiesToSpawn; i++) {
+                        var dragon = Math.floor(util.Mathf.RandomRange(1, 2)) == 1 ? "baby_dragon_green" : "baby_dragon_red";
+                        var enemy = new objects.BabyDragon(config.Game.ASSETS.getResult(dragon), Math.floor(util.Mathf.RandomRange(config.Game.SCREEN_WIDTH, config.Game.SCREEN_WIDTH + 100)), Math.floor(util.Mathf.RandomRange(50, 400)));
+                        enemy.Speed = this._enemySpeed;
+                        this._enemies.push(enemy);
+                        this.addChild(enemy);
+                    }
+                }
+                else {
+                    this._enemies.forEach(function (enemy) {
+                        enemy.Update();
+                        if (enemy.IsOffScreen()) {
+                            _this._lose = true;
+                        }
+                    });
+                    this._player.ThrowingStars.forEach(function (star) {
+                        _this._enemies.forEach(function (enemy) {
+                            managers.Collision.AABBCheck(star, enemy);
+                            if (enemy.isColliding) {
+                                star.Impact();
+                                enemy.isColliding = false;
+                            }
+                            if (star.alpha <= 0) {
+                                _this.removeChild(star);
+                                _this._player.ThrowingStars.splice(_this._player.ThrowingStars.indexOf(star), 1);
+                            }
+                            if (enemy.IsDead) {
+                                _this._enemies.splice(_this._enemies.indexOf(enemy), 1);
+                                _this.removeChild(enemy);
+                                _this._score++;
+                            }
+                        });
+                        if (star.x > config.Game.SCREEN_WIDTH) {
+                            _this._lose = true;
+                        }
+                    });
+                }
             }
             else {
                 // player lost
+                if (!this._renderLoseScreen) {
+                    if (this._score > config.Game.TARGET_HIGH_SCORE) {
+                        config.Game.TARGET_HIGH_SCORE = this._score;
+                    }
+                    var finalscore = new objects.Label("Final Score: " + this._score, "40px", "Consolas", "#FFFF00", config.Game.SCREEN_WIDTH / 2, 60, true);
+                    var highscore = new objects.Label("High Score: " + config.Game.TARGET_HIGH_SCORE, "40px", "Consolas", "#FFFF00", config.Game.SCREEN_WIDTH / 2, 110, true);
+                    this._loseScreen = this.DrawRectangle(20, 20, config.Game.SCREEN_WIDTH - 40, config.Game.SCREEN_HEIGHT - 40, "#000000");
+                    this._loseScreen.alpha = 0.7;
+                    this.addChild(this._loseScreen);
+                    this.addChild(finalscore);
+                    this.addChild(highscore);
+                    this.addChild(this._mainMenuButton);
+                    this._renderLoseScreen = true;
+                }
             }
         };
         Target.prototype.Main = function () {

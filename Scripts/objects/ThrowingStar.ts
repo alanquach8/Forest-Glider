@@ -65,7 +65,7 @@ module objects
 
         public IsOffScreen(): boolean
         {
-            return this.x > config.Game.SCREEN_WIDTH;
+            return this.x > config.Game.SCREEN_WIDTH+this.width;
         }
         
     }
