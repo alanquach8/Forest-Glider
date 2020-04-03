@@ -109,7 +109,9 @@ module objects
         public set ReloadSpeed(value:number) {
             this._reloadSpeed = value;
         }
-        
+        public set ReloadCounter(value:number) {
+            this._reloadCounter = value;
+        }
 
         // CONSTRUCTOR
         constructor()

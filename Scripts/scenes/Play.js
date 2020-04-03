@@ -120,6 +120,12 @@ var scenes;
                         }
                     });
                     if (this._boss.IsDead) {
+                        if (this._enemies.length > 0) {
+                            this._enemies.forEach(function (enemy) {
+                                _this._enemies.splice(_this._enemies.indexOf(enemy), 1);
+                                _this.removeChild(enemy);
+                            });
+                        }
                         this._win = true;
                         this._player.Win = true;
                         console.log('win: ' + this._win + ', lose: ' + this._lose);

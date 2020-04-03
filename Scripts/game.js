@@ -14,6 +14,7 @@ var Game = (function () {
         { id: "next_button", src: "./Assets/images/nextButton.png" },
         { id: "play_button", src: "./Assets/images/playButton.png" },
         { id: "forest", src: "./Assets/images/forest.png" },
+        { id: "minigame_background", src: "./Assets/images/minigame_background.png" },
         { id: "select_player_m", src: "./Assets/images/select_player_m.png" },
         { id: "select_player_f", src: "./Assets/images/select_player_f.png" },
         { id: "player_m", src: "./Assets/images/player_m.png" },
@@ -44,8 +45,11 @@ var Game = (function () {
         { id: "star_item", src: "./Assets/images/star_item.png" },
         { id: "try_again_button", src: "./Assets/images/try_again_button.png" },
         { id: "play_again_button", src: "./Assets/images/play_again_button.png" },
+        { id: "play_button_start_scene", src: "./Assets/images/playButtonStartScene.png" },
         { id: "main_menu_button", src: "./Assets/images/main_menu_button.png" },
         { id: "instructions_button", src: "./Assets/images/instructionsButton.png" },
+        { id: "minigames_button", src: "./Assets/images/minigamesButton.png" },
+        { id: "start_background", src: "./Assets/images/start_background.png" },
         { id: "instructions1", src: "./Assets/images/instructions1.png" },
         { id: "instructions2", src: "./Assets/images/instructions2.png" },
         { id: "instructions3", src: "./Assets/images/instructions3.png" },
@@ -121,6 +125,18 @@ var Game = (function () {
             case scenes.State.CHARACTER_SELECT:
                 console.log("switch to Character Select Scene");
                 currentScene = new scenes.CharacterSelect();
+                break;
+            case scenes.State.MINIGAMES:
+                console.log("switch to Minigames Scene");
+                currentScene = new scenes.Minigames();
+                break;
+            case scenes.State.DODGE:
+                console.log("switch to Dodge minigame Scene");
+                currentScene = new scenes.Dodge();
+                break;
+            case scenes.State.TARGET:
+                console.log("switch to Target minigame Scene");
+                currentScene = new scenes.Target();
                 break;
             case scenes.State.PLAY:
                 console.log("switch to Play Scene");

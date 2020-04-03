@@ -221,6 +221,13 @@ var objects;
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(Player.prototype, "ReloadCounter", {
+            set: function (value) {
+                this._reloadCounter = value;
+            },
+            enumerable: true,
+            configurable: true
+        });
         // PRIVATE METHODS
         Player.prototype._checkBounds = function () {
             if (this.x - this.halfWidth < 0) {

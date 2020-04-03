@@ -15,5 +15,8 @@ module config
         public static THROWING_STAR: string = "star_m";
         public static HIGH_SCORE:number = 0;
         public static FINAL_SCORE: number = 0;
+
+        public static DODGE_HIGH_SCORE: number = 0;
+        public static TARGET_HIGH_SCORE: number = 0;
     }
 }

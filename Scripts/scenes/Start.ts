@@ -6,6 +6,7 @@ module scenes
         private _welcomeLabel: objects.Label;
         private _playButton: objects.Button;
         private _instructionsButton: objects.Button;
+        private _minigamesButton: objects.Button;
 
         // PUBLIC PROPERTIES
 
@@ -25,8 +26,9 @@ module scenes
              //instantiate a new Text object
             this._welcomeLabel = new objects.Label("Forest Glider", "80px", "Consolas", "#FFFF00", config.Game.SCREEN_WIDTH/2, 50, true);
             // buttons
-            this._playButton = new objects.Button(config.Game.ASSETS.getResult("play_button"), 400, 430, true);
-            this._instructionsButton = new objects.Button(config.Game.ASSETS.getResult("instructions_button"), 200, 430, true);
+            this._playButton = new objects.Button(config.Game.ASSETS.getResult("play_button_start_scene"), config.Game.SCREEN_WIDTH/2, 250, true);
+            this._instructionsButton = new objects.Button(config.Game.ASSETS.getResult("instructions_button"), config.Game.SCREEN_WIDTH/2, 300, true);
+            this._minigamesButton = new objects.Button(config.Game.ASSETS.getResult("minigames_button"), config.Game.SCREEN_WIDTH/2, 350, true)
             this.Main();
         }
         
@@ -36,7 +38,8 @@ module scenes
         
         public Main(): void 
         {
-            this.addChild(this.DrawRectangle(0, 0, config.Game.SCREEN_WIDTH, config.Game.SCREEN_HEIGHT, "black"));
+            //this.addChild(this.DrawRectangle(0, 0, config.Game.SCREEN_WIDTH, config.Game.SCREEN_HEIGHT, "black"));
+            this.addChild(new createjs.Bitmap(config.Game.ASSETS.getResult("start_background")));
             this.addChild(this._welcomeLabel);
 
         
@@ -50,6 +53,12 @@ module scenes
 
             this._instructionsButton.on("click", ()=>{
                 config.Game.SCENE = scenes.State.INSTRUCTIONS1;
+            });
+
+            this.addChild(this._minigamesButton);
+
+            this._minigamesButton.on("click", ()=>{
+                config.Game.SCENE = scenes.State.MINIGAMES;
             });
 
         }

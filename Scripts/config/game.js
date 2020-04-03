@@ -11,6 +11,8 @@ var config;
         Game.THROWING_STAR = "star_m";
         Game.HIGH_SCORE = 0;
         Game.FINAL_SCORE = 0;
+        Game.DODGE_HIGH_SCORE = 0;
+        Game.TARGET_HIGH_SCORE = 0;
         return Game;
     }());
     config.Game = Game;
