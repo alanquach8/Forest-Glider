@@ -16,13 +16,20 @@ var objects;
 (function (objects) {
     var Forest = /** @class */ (function (_super) {
         __extends(Forest, _super);
-        // PUBLIC PROPERTIES
         // CONSTRUCTOR
         function Forest() {
             var _this = _super.call(this, config.Game.ASSETS.getResult("forest")) || this;
             _this.Start();
             return _this;
         }
+        Object.defineProperty(Forest.prototype, "HorizontalSpeed", {
+            // PUBLIC PROPERTIES
+            get: function () {
+                return this._horizontalSpeed;
+            },
+            enumerable: true,
+            configurable: true
+        });
         // PRIVATE METHODS
         Forest.prototype._checkBounds = function () {
             if (this.x + this.width <= 960) {

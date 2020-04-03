@@ -37,7 +37,7 @@ module objects
         // PUBLIC METHODS
         public Start(): void 
         {
-            this._speed = 1;
+            this._speed = Math.floor(util.Mathf.RandomRange(1,3));
             this._life = 2;
             this._isDead = false;
         }

@@ -68,6 +68,11 @@ module objects
                 }
             }
         }
+
+        public IsOffScreen():boolean
+        {
+            return this.x < -this.width;
+        }
         
     }
 }

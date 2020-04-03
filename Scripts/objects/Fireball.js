@@ -40,7 +40,7 @@ var objects;
         };
         // PUBLIC METHODS
         Fireball.prototype.Start = function () {
-            this._speed = 5;
+            this._speed = 8;
             this._damage = 2;
             var x = -(this.x - this._towards.x);
             var y = -(this.y - this._towards.y);

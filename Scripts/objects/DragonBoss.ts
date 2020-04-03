@@ -27,7 +27,7 @@ module objects
         private _prefireCounter: number = 0;
         private _fireballCount: number = 3;
         private _fireballCounter: number = 0;
-        private _fireballDelay: number = 60;
+        private _fireballDelay: number = 80;
         private _fireballDelayCounter: number = 0;
         private _fireballs: Array<objects.Fireball>;
 
@@ -102,7 +102,7 @@ module objects
                     }
                 } else {
                     // ATTACK
-                    if(this._attackCode == 3)
+                    if(this._attackCode == 1)
                     {
                         this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("dragon_boss_spawn")).image;
                         if(this._spawned != this._spawnCount)

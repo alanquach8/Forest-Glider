@@ -6,6 +6,10 @@ module objects
         private _horizontalSpeed?:number;
 
         // PUBLIC PROPERTIES
+        public get HorizontalSpeed():number
+        {
+            return this._horizontalSpeed;
+        }
 
         // CONSTRUCTOR
         constructor()

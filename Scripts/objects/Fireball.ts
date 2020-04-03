@@ -29,7 +29,7 @@ module objects
         // PUBLIC METHODS
         public Start(): void 
         {
-            this._speed = 5;
+            this._speed = 8;
             this._damage = 2;
             let x = -(this.x - this._towards.x);
             let y = -(this.y - this._towards.y);

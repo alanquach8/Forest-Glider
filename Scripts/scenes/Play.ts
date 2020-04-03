@@ -12,10 +12,6 @@ module scenes
         private _forest?: objects.Forest;
         private _player?: objects.Player;
 
-        private _enemies?: Array<objects.Enemy>;
-        private _maxNoOfEnemies: number = 3;
-        private _noOfEnemies: number = this._maxNoOfEnemies;
-        
         private _explosions?: Array<objects.Explosion>;
 
         private _backgroundTheme?: createjs.AbstractSoundInstance;
@@ -27,12 +23,18 @@ module scenes
         private _warningLabelPlaced?: boolean = false;
         private _warningLabelFlash?: boolean = false;
 
-        private _fireballs?: Array<objects.Fireball>;
-
         private _items?: Array<objects.Item>
 
         private _win: boolean = false;
         private _lose: boolean = false;
+
+
+        private _distanceTravelled?: number = 0;
+        private _enemies?: Array<objects.Enemy>;
+        private _maxNoOfEnemies: number = 50;
+        private _noOfEnemies: number = this._maxNoOfEnemies;
+        private _minSpawn: number = 4;
+        private _maxSpawn: number = 6;
         // private _ocean?: objects.Ocean;
         // private _plane?: objects.Plane;
         // private _island?: objects.Island;
@@ -75,38 +77,20 @@ module scenes
             this._scoreLabel = new objects.Label("Score: " + this._player.Score, "20px", "Consolas", this._labelColor, config.Game.SCREEN_WIDTH/2, 0, false);
 
             this._enemies = new Array<objects.Enemy>();
-            // let anEnemy = new objects.BabyDragon(config.Game.ASSETS.getResult("baby_dragon_green"), -100, -100);
-            // anEnemy.Speed = 0;
-            // this._enemies.push(anEnemy);
-            for(let i=0; i<this._maxNoOfEnemies; i++)
-            {
-                let dragon = Math.floor(util.Mathf.RandomRange(1,2)) == 1 ? "baby_dragon_green" : "baby_dragon_red"
-                this._enemies.push(new objects.BabyDragon(config.Game.ASSETS.getResult(dragon), Math.floor(util.Mathf.RandomRange(500, 800)), Math.floor(util.Mathf.RandomRange(50, 400))));
-                this._noOfEnemies--;
-            }
 
-            this._explosions = new Array<objects.Explosion>();
-            this._fireballs = new Array<objects.Fireball>();
-            this._items = new Array<objects.Item>();
-            for(let i = 0; i < 5; i++)
-            {
-                this._items.push(new objects.Item(Math.floor(util.Mathf.RandomRange(3,3)), Math.floor(util.Mathf.RandomRange(300,1000)), Math.floor(util.Mathf.RandomRange(50,450))));
-            }
-            // this._ocean = new objects.Ocean();
-            // this._plane = new objects.Plane();
-            // this._island = new objects.Island();
-
-            // this._cloudNumber = config.Game.CLOUD_NUM;
-            // this._clouds = new Array<objects.Cloud>();
-
-            // // create an array of cloud objects
-            // for (let index = 0; index < this._cloudNumber; index++) 
+            // for(let i=0; i<this._maxNoOfEnemies; i++)
             // {
-            //     this._clouds[index] = new objects.Cloud();             
+            //     let dragon = Math.floor(util.Mathf.RandomRange(1,2)) == 1 ? "baby_dragon_green" : "baby_dragon_red"
+            //     this._enemies.push(new objects.BabyDragon(config.Game.ASSETS.getResult(dragon), Math.floor(util.Mathf.RandomRange(500, 800)), Math.floor(util.Mathf.RandomRange(50, 400))));
+            //     this._noOfEnemies--;
             // }
 
-            // this._scoreBoard = new managers.ScoreBoard();
-            // config.Game.SCORE_BOARD = this._scoreBoard;
+            this._explosions = new Array<objects.Explosion>();
+            this._items = new Array<objects.Item>();
+            // for(let i = 0; i < 5; i++)
+            // {
+            //     this._items.push(new objects.Item(Math.floor(util.Mathf.RandomRange(1,3)), Math.floor(util.Mathf.RandomRange(300,1000)), Math.floor(util.Mathf.RandomRange(50,450))));
+            // }
             
              this.Main();
         }        
@@ -124,7 +108,7 @@ module scenes
             {
                 if(!this._bossBattle)
                 {
-                    if(this._noOfEnemies == 0 && this._enemies.length == 0)
+                    if(this._noOfEnemies <= 0 && this._enemies.length == 0)
                     {
                         this._bossBattle = true;
                         console.log('BOSS BATTLE');
@@ -188,10 +172,38 @@ module scenes
                     }
                 }
 
+                if(!this._bossBattle)
+                {
+                    this._distanceTravelled += this._forest.HorizontalSpeed;
+                    if(this._distanceTravelled >= 1000) // spawn enemies after certain distance travelled
+                    {
+                        this._distanceTravelled = 0;
+                        let noToSpawn = Math.floor(util.Mathf.RandomRange(this._minSpawn, this._maxSpawn));
+                        for(let i=0; i<noToSpawn; i++)
+                        {
+                            let dragon = Math.floor(util.Mathf.RandomRange(1,2)) == 1 ? "baby_dragon_green" : "baby_dragon_red"
+                            let enemy = new objects.BabyDragon(config.Game.ASSETS.getResult(dragon), Math.floor(util.Mathf.RandomRange(config.Game.SCREEN_WIDTH, config.Game.SCREEN_WIDTH+100)), Math.floor(util.Mathf.RandomRange(50, 400)));
+                            this._enemies.push(enemy);
+                            this.addChild(enemy);
+                            this._noOfEnemies--;
+                        }
+
+                        // 1 in 3 chance to get an item
+                        let chance = Math.floor(util.Mathf.RandomRange(1,3));
+                        if(chance == 1)
+                        {
+                            let randomItem = Math.floor(util.Mathf.RandomRange(1,3));
+                            let item = new objects.Item(randomItem, config.Game.SCREEN_WIDTH+10, Math.floor(util.Mathf.RandomRange(50, 400)));
+                            this._items.push(item);
+                            this.addChild(item);
+                        }
+                    }
+                }
+                
                 this._items.forEach(item => {
                     item.Update();
                     managers.Collision.AABBCheck(this._player, item);
-                    if(item.Obtained)
+                    if(item.Obtained || item.IsOffScreen())
                     {
                         this._items.splice(this._items.indexOf(item), 1);
                         this.removeChild(item);
@@ -241,6 +253,14 @@ module scenes
                         this.removeChild(enemy);
                         console.log(this._enemies.length);
                         this._player.Score += enemy.Points;
+                        let itemChance = Math.floor(util.Mathf.RandomRange(1,10));
+                        if(itemChance == 1)
+                        {
+                            let randomItem = Math.floor(util.Mathf.RandomRange(1,3));
+                            let item = new objects.Item(randomItem, enemy.x, enemy.y);
+                            this._items.push(item);
+                            this.addChild(item);
+                        }
                     }
                     if(enemy.IsOffScreen())
                     {

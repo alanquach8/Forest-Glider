@@ -69,6 +69,9 @@ var objects;
                 }
             }
         };
+        Item.prototype.IsOffScreen = function () {
+            return this.x < -this.width;
+        };
         return Item;
     }(objects.GameObject));
     objects.Item = Item;

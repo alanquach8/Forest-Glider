@@ -35,7 +35,7 @@ var objects;
             _this._prefireCounter = 0;
             _this._fireballCount = 3;
             _this._fireballCounter = 0;
-            _this._fireballDelay = 60;
+            _this._fireballDelay = 80;
             _this._fireballDelayCounter = 0;
             _this.Start();
             return _this;
@@ -102,7 +102,7 @@ var objects;
                 }
                 else {
                     // ATTACK
-                    if (this._attackCode == 3) {
+                    if (this._attackCode == 1) {
                         this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("dragon_boss_spawn")).image;
                         if (this._spawned != this._spawnCount) {
                             this._spawnCounter++;
