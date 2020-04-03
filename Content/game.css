@@ -1,8 +1,13 @@
 body
 {
-    background-color: lightgray;
+    background-color: #115023;
 }
 
+.text
+{
+    color: #FFFF00;
+    text-align: center;
+}
 #canvas
 {
     background-color: white;
