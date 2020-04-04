@@ -1,5 +1,12 @@
 module objects
 {
+    /**
+     * Author: Alan Quach
+     * Student Number: 300974326
+     * @export
+     * @class Bomb
+     * @extends {GameObject}
+     */
     export class Bomb extends GameObject
     {
         // PRIVATE INSTANCE MEMBERS

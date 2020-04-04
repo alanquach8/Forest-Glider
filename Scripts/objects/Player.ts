@@ -1,5 +1,12 @@
 module objects
 {
+    /**
+     * Author: Alan Quach
+     * Student Number: 300974326
+     * @export
+     * @class Player
+     * @extends {GameObject}
+     */
     export class Player extends GameObject
     {
         // PRIVATE INSTANCE MEMBERS
@@ -18,13 +25,13 @@ module objects
         private _isThrowing:boolean;
         private _throwingStars:Array<objects.ThrowingStar>;
         private _reloadSpeed:number = 15;
-        private _reloadCounter:number = 0;
+        private _reloadCounter:number = 0; // counts from 0 to reloadSpeed to throw stars at intervals
 
         private _bombs:Array<objects.Bomb>;
         private _isThrowingBomb:boolean;
         private _bombCount:number = 3;
         private _bombReloadSpeed: number = 50;
-        private _bombReloadCounter: number = 0;
+        private _bombReloadCounter: number = 0; // counts from 0 to bombReloadSpeed to throw bombs at intervals
 
         private _win:boolean = false;
         private _lose:boolean = false;
@@ -314,6 +321,12 @@ module objects
             
         }
 
+        /**
+         * Animation for when player gets hit
+         * and enables invincibility state for brief moment
+         *
+         * @memberof Player
+         */
         public GotHit(): void
         {
             createjs.Sound.play("player_gets_hit");

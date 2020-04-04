@@ -14,6 +14,13 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var objects;
 (function (objects) {
+    /**
+     * Author: Alan Quach
+     * Student Number: 300974326
+     * @export
+     * @class BabyDragon
+     * @extends {Enemy}
+     */
     var BabyDragon = /** @class */ (function (_super) {
         __extends(BabyDragon, _super);
         // PUBLIC PROPERTIES

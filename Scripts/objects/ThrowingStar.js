@@ -14,6 +14,13 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var objects;
 (function (objects) {
+    /**
+     * Author: Alan Quach
+     * Student Number: 300974326
+     * @export
+     * @class ThrowingStar
+     * @extends {GameObject}
+     */
     var ThrowingStar = /** @class */ (function (_super) {
         __extends(ThrowingStar, _super);
         // CONSTRUCTOR
@@ -64,6 +71,11 @@ var objects;
         };
         ThrowingStar.prototype.Reset = function () {
         };
+        /**
+         * Animation + sound for when star hits en enemy
+         *
+         * @memberof ThrowingStar
+         */
         ThrowingStar.prototype.Impact = function () {
             this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("star_impact")).image;
             if (!this._playedImpactSound) {

@@ -1,5 +1,12 @@
 module objects
 {
+    /**
+     * Author: Alan Quach
+     * Student Number: 300974326
+     * @export
+     * @class ThrowingStar
+     * @extends {GameObject}
+     */
     export class ThrowingStar extends GameObject
     {
         // PRIVATE INSTANCE MEMBERS
@@ -51,6 +58,11 @@ module objects
             
         }
 
+        /**
+         * Animation + sound for when star hits en enemy
+         *
+         * @memberof ThrowingStar
+         */
         public Impact(): void
         {
             this.image = new createjs.Bitmap(config.Game.ASSETS.getResult("star_impact")).image;

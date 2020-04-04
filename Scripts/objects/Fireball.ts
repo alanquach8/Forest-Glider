@@ -1,5 +1,12 @@
 module objects
 {
+    /**
+     * Author: Alan Quach
+     * Student Number: 300974326
+     * @export
+     * @class Fireball
+     * @extends {GameObject}
+     */
     export class Fireball extends GameObject
     {
         // PRIVATE INSTANCE MEMBERS

@@ -1,5 +1,12 @@
 module objects
 {
+    /**
+     * Author: Alan Quach
+     * Student Number: 300974326
+     * @export
+     * @class BabyDragon
+     * @extends {Enemy}
+     */
     export class BabyDragon extends Enemy
     {
         

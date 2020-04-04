@@ -14,6 +14,13 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var objects;
 (function (objects) {
+    /**
+     * Author: Alan Quach
+     * Student Number: 300974326
+     * @export
+     * @class DragonBoss
+     * @extends {Enemy}
+     */
     var DragonBoss = /** @class */ (function (_super) {
         __extends(DragonBoss, _super);
         // CONSTRUCTOR
@@ -27,16 +34,16 @@ var objects;
             _this._attackCounter = 0;
             _this._attackAt = 600;
             _this._idle = true;
+            _this._spawned = 0; // counts from 0 to spawnCount to spawn certain amount
             _this._spawnCount = 5;
-            _this._spawnCounter = 0; // counts from 0 to spawnAt
+            _this._spawnCounter = 0; // counts from 0 to spawnAt to spawn at intervals
             _this._spawnAt = 60;
-            _this._spawned = 0; // counts from 0 to spawnCount
             _this._prefireCount = 100;
-            _this._prefireCounter = 0;
+            _this._prefireCounter = 0; // counts from 0 to prefireCount to change animation
             _this._fireballCount = 3;
-            _this._fireballCounter = 0;
+            _this._fireballCounter = 0; // counts from 0 to fireballCount to shoot certain amount of fireballs
             _this._fireballDelay = 80;
-            _this._fireballDelayCounter = 0;
+            _this._fireballDelayCounter = 0; // counts from 0 to fireballDelay to shoot fireballs at intervals
             _this.Start();
             return _this;
         }

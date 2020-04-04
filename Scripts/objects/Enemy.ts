@@ -1,5 +1,14 @@
 module objects
 {
+    /**
+     * Author: Alan Quach
+     * Student Number: 300974326
+     * Abstract class that all enemies will inherit from
+     * @export
+     * @abstract
+     * @class Enemy
+     * @extends {GameObject}
+     */
     export abstract class Enemy extends GameObject
     {
         // PRIVATE INSTANCE MEMBERS

@@ -1,5 +1,12 @@
 module objects
 {
+    /**
+     * Author: Alan Quach
+     * Student Number: 300974326
+     * @export
+     * @class DragonBoss
+     * @extends {Enemy}
+     */
     export class DragonBoss extends Enemy
     {
         // PRIVATE INSTANCE MEMBERS
@@ -18,17 +25,17 @@ module objects
         private _attackCode: number;
 
         private _spawns: Array<objects.Enemy>;
+        private _spawned: number = 0; // counts from 0 to spawnCount to spawn certain amount
         private _spawnCount: number = 5;
-        private _spawnCounter: number = 0; // counts from 0 to spawnAt
+        private _spawnCounter: number = 0; // counts from 0 to spawnAt to spawn at intervals
         private _spawnAt: number = 60;
-        private _spawned: number = 0; // counts from 0 to spawnCount
-
+        
         private _prefireCount: number = 100;
-        private _prefireCounter: number = 0;
+        private _prefireCounter: number = 0; // counts from 0 to prefireCount to change animation
         private _fireballCount: number = 3;
-        private _fireballCounter: number = 0;
+        private _fireballCounter: number = 0; // counts from 0 to fireballCount to shoot certain amount of fireballs
         private _fireballDelay: number = 80;
-        private _fireballDelayCounter: number = 0;
+        private _fireballDelayCounter: number = 0; // counts from 0 to fireballDelay to shoot fireballs at intervals
         private _fireballs: Array<objects.Fireball>;
 
         // PUBLIC PROPERTIES

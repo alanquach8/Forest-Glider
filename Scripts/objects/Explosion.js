@@ -14,6 +14,13 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var objects;
 (function (objects) {
+    /**
+     * Author: Alan Quach
+     * Student Number: 300974326
+     * @export
+     * @class Explosion
+     * @extends {GameObject}
+     */
     var Explosion = /** @class */ (function (_super) {
         __extends(Explosion, _super);
         // CONSTRUCTOR

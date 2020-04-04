@@ -14,6 +14,15 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var objects;
 (function (objects) {
+    /**
+     * Author: Alan Quach
+     * Student Number: 300974326
+     * Abstract class that all enemies will inherit from
+     * @export
+     * @abstract
+     * @class Enemy
+     * @extends {GameObject}
+     */
     var Enemy = /** @class */ (function (_super) {
         __extends(Enemy, _super);
         // CONSTRUCTOR

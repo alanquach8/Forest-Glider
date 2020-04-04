@@ -14,6 +14,13 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var objects;
 (function (objects) {
+    /**
+     * Author: Alan Quach
+     * Student Number: 300974326
+     * @export
+     * @class Player
+     * @extends {GameObject}
+     */
     var Player = /** @class */ (function (_super) {
         __extends(Player, _super);
         // CONSTRUCTOR
@@ -27,10 +34,10 @@ var objects;
             _this._invincibleCounter = 0;
             _this._speed = 2;
             _this._reloadSpeed = 15;
-            _this._reloadCounter = 0;
+            _this._reloadCounter = 0; // counts from 0 to reloadSpeed to throw stars at intervals
             _this._bombCount = 3;
             _this._bombReloadSpeed = 50;
-            _this._bombReloadCounter = 0;
+            _this._bombReloadCounter = 0; // counts from 0 to bombReloadSpeed to throw bombs at intervals
             _this._win = false;
             _this._lose = false;
             _this._isDead = false;
@@ -343,6 +350,12 @@ var objects;
                 }
             }
         };
+        /**
+         * Animation for when player gets hit
+         * and enables invincibility state for brief moment
+         *
+         * @memberof Player
+         */
         Player.prototype.GotHit = function () {
             createjs.Sound.play("player_gets_hit");
             this._invincible = true;
